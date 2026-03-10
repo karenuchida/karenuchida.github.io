@@ -63,14 +63,14 @@ ul {
 /* ── TIMELINE ── */
 .timeline {
     position: relative;
-    padding-left: 44px;
+    padding-left: 52px;
     margin-top: 20px;
 }
 
 .timeline::before {
     content: '';
     position: absolute;
-    left: 10px;
+    left: 14px;
     top: 0;
     bottom: 0;
     width: 3px;
@@ -83,23 +83,38 @@ ul {
     margin-bottom: 36px;
 }
 
+/* Solid dot, no ring */
 .timeline-dot {
     position: absolute;
-    left: -40px;
-    top: 22px;
+    left: -45px;
+    top: 24px;
     width: 14px;
     height: 14px;
     background: #ff6600;
     border-radius: 50%;
-    border: 3px solid #fff7f0;
-    box-shadow: 0 0 0 2px #ff6600;
+}
+
+/* Year label sitting on the timeline line */
+.timeline-year {
+    position: relative;
+    display: inline-block;
+    margin-left: -38px;
+    margin-bottom: 14px;
+    padding: 3px 12px;
+    background: #ff6600;
+    color: #fff;
+    font-family: "Century Gothic", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
 }
 
 /* ── FLIP CARDS ── */
 .flip-card {
     width: 100%;
     max-width: 700px;
-    height: 200px;
+    height: 220px;
     perspective: 1400px;
 }
 
@@ -127,62 +142,23 @@ ul {
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
 }
 
-/* Front: image left, title right */
+/* Front: image only, covers full card */
 .flip-card-front {
-    display: flex;
-    background: #ffffff;
-}
-
-.flip-card-front img {
-    width: 42%;
-    height: 100%;
-    object-fit: cover;
-    flex-shrink: 0;
-}
-
-/* Fallback when image is missing */
-.flip-card-front img[src=""],
-.flip-card-front img:not([src]) {
     background: #ffe0cc;
 }
 
-.flip-card-title {
-    padding: 18px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
+.flip-card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
-.flip-card-title h3 {
-    color: #ff6600;
-    margin: 0;
-    font-size: 15px;
-}
-
-.flip-card-title p {
-    color: #555;
-    margin: 0;
-    font-size: 13px;
-}
-
-.flip-date {
-    color: #888 !important;
-    font-size: 12px !important;
-}
-
-.flip-hint {
-    margin-top: 8px;
-    font-size: 11px;
-    color: #ff6600;
-    opacity: 0.7;
-    font-style: italic;
-}
-
-/* Back: orange gradient, details */
+/* Back: orange gradient, all details */
 .flip-card-back {
     background: linear-gradient(135deg, #ff6600 0%, #cc4400 100%);
     color: #fff;
+    font-family: "Century Gothic", Arial, sans-serif;
     transform: rotateY(180deg);
     padding: 18px 22px;
     overflow-y: auto;
@@ -191,6 +167,7 @@ ul {
 
 .flip-card-back h3 {
     color: #fff;
+    font-family: "Century Gothic", Arial, sans-serif;
     margin: 0 0 6px 0;
     font-size: 14px;
 }
@@ -225,6 +202,7 @@ ul {
     padding: 16px 20px;
     max-width: 680px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    font-family: "Century Gothic", Arial, sans-serif;
 }
 
 .edu-card h3 {
