@@ -1,6 +1,9 @@
+/* Google Fonts – Jost is the closest web font to Century Gothic */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap');
+
 /* Font and layout */
 body {
-    font-family: "Century Gothic", Arial, sans-serif;
+    font-family: "Jost", "Century Gothic", "Trebuchet MS", Arial, sans-serif;
     background-color: #fff7f0;
     color: #333;
     margin: 0;
@@ -110,18 +113,44 @@ ul {
     letter-spacing: 0.5px;
 }
 
+/* ── CV TOGGLE BUTTONS ── */
+.cv-toggle-bar {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px 0 0;
+}
+
+.cv-btn {
+    font-family: "Jost", "Century Gothic", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 9px 28px;
+    border: 2px solid #ff6600;
+    border-radius: 25px;
+    background: transparent;
+    color: #ff6600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.cv-btn.active,
+.cv-btn:hover {
+    background: #ff6600;
+    color: #fff;
+}
+
 /* ── FLIP CARDS ── */
 .flip-card {
     width: 100%;
     max-width: 700px;
-    height: 220px;
     perspective: 1400px;
 }
 
 .flip-card-inner {
     position: relative;
     width: 100%;
-    height: 100%;
     transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
     transform-style: preserve-3d;
 }
@@ -130,44 +159,46 @@ ul {
     transform: rotateY(180deg);
 }
 
-.flip-card-front,
-.flip-card-back {
-    position: absolute;
+/* Front: sits in normal flow, height = image height */
+.flip-card-front {
+    position: relative;
     width: 100%;
-    height: 100%;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
-}
-
-/* Front: image only, covers full card */
-.flip-card-front {
     background: #ffe0cc;
+    min-height: 180px;
 }
 
 .flip-card-front img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
 }
 
-/* Back: orange gradient, all details */
+/* Back: overlays front, same dimensions */
 .flip-card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    overflow-y: auto;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
     background: linear-gradient(135deg, #ff6600 0%, #cc4400 100%);
     color: #fff;
-    font-family: "Century Gothic", Arial, sans-serif;
     transform: rotateY(180deg);
     padding: 18px 22px;
-    overflow-y: auto;
     box-sizing: border-box;
 }
 
 .flip-card-back h3 {
     color: #fff;
-    font-family: "Century Gothic", Arial, sans-serif;
     margin: 0 0 6px 0;
     font-size: 14px;
 }
