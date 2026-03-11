@@ -1,5 +1,5 @@
-/* ── GOOGLE FONTS (fallback for Century Gothic) ── */
-@import url('https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500&display=swap');
+/* ── GOOGLE FONTS (Jost = closest web match to Century Gothic) ── */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
 
 /* ── RESET & BASE ── */
 *, *::before, *::after {
@@ -11,13 +11,18 @@ html {
 }
 
 body {
-    font-family: "Century Gothic", "Trebuchet MS", "Karla", Arial, sans-serif;
+    font-family: "Century Gothic", "Trebuchet MS", "Jost", Arial, sans-serif;
     background-color: #ffffff;
     color: #111;
     margin: 0;
     padding: 0;
     font-size: 15px;
     line-height: 1.7;
+}
+
+/* Force Century Gothic on everything, including lists and paragraphs */
+p, li, span, div, h1, h2, h3, h4, h5, h6, button, a {
+    font-family: "Century Gothic", "Trebuchet MS", "Jost", Arial, sans-serif;
 }
 
 /* ── STICKY NAV ── */
@@ -100,7 +105,6 @@ body {
     color: #ff6600;
     text-decoration: none;
     font-size: 13px;
-    font-family: "Century Gothic", "Karla", Arial, sans-serif;
     transition: background 0.2s, color 0.2s;
     white-space: nowrap;
 }
@@ -110,16 +114,8 @@ body {
     color: #fff;
 }
 
-/* ── DIVIDER ── */
-.section-divider {
-    border: none;
-    border-top: 1px solid #ebebeb;
-    max-width: 860px;
-    margin: 0 auto;
-}
-
 /* ── CV WRAPPER ── */
-#cv, .cv-content {
+.cv-content {
     max-width: 900px;
     margin: 0 auto;
     padding: 0 24px 80px;
@@ -134,7 +130,6 @@ body {
 }
 
 .cv-btn {
-    font-family: "Century Gothic", "Karla", Arial, sans-serif;
     font-size: 12px;
     font-weight: normal;
     letter-spacing: 0.1em;
@@ -158,17 +153,15 @@ body {
 h2 {
     color: #ff6600;
     font-weight: normal;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    margin: 52px 0 24px;
+    font-size: 17px;
+    margin: 52px 0 18px;
 }
 
 h3 {
     color: #ff6600;
     font-weight: normal;
     font-size: 15px;
-    margin: 0 0 4px 0;
+    margin: 0 0 2px 0;
 }
 
 ul {
@@ -179,27 +172,29 @@ ul {
     font-size: 14px;
 }
 
-/* ── TEXT-ONLY: title + date/location on same row ── */
-.entry-row {
+/* ── TEXT-ONLY: title row then institution + date row ── */
+.entry-block {
+    margin-top: 22px;
+}
+
+.entry-subrow {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
 }
 
-.entry-row h3 {
-    margin: 0;
-    flex-shrink: 0;
+.entry-place {
+    color: #555;
+    font-size: 13px;
 }
 
 .entry-meta {
     color: #888;
     font-size: 13px;
     text-align: right;
-    flex-shrink: 1;
+    white-space: nowrap;
 }
 
 /* ── RESEARCH IMAGE GRID (interactive view) ── */
@@ -294,7 +289,7 @@ ul {
     line-height: 1.5;
 }
 
-/* ── TIMELINE (for education in interactive) ── */
+/* ── TIMELINE (education in interactive) ── */
 .timeline {
     position: relative;
     padding-left: 48px;

@@ -34,8 +34,6 @@
         </div>
     </section>
 
-    <hr class="section-divider">
-
     <!-- ── CV TOGGLE ── -->
     <div id="cv" class="cv-toggle-bar">
         <button id="btn-text" class="cv-btn active" onclick="showView('text')">Text Only</button>
@@ -50,9 +48,12 @@
 
         <h2>Research Experiences</h2>
 
-        <div class="entry-row">
+        <div class="entry-block">
             <h3>Research intern · Nobori group</h3>
-            <span class="entry-meta">The Sainsbury Laboratory · Sep 2025 – present · Norwich, UK</span>
+            <div class="entry-subrow">
+                <span class="entry-place">The Sainsbury Laboratory</span>
+                <span class="entry-meta">Sep 2025 – present · Norwich, UK</span>
+            </div>
         </div>
         <ul>
             <li>Developing PHYTOMap to spatially map plant-microbiome interactions</li>
@@ -64,18 +65,24 @@
             <li>Skills: Confocal microscopy, R, Python</li>
         </ul>
 
-        <div class="entry-row">
+        <div class="entry-block">
             <h3>MPhil researcher · Schornack group</h3>
-            <span class="entry-meta">Sainsbury Laboratory Cambridge University · Oct 2024 – Jun 2025 · Cambridge, UK</span>
+            <div class="entry-subrow">
+                <span class="entry-place">Sainsbury Laboratory Cambridge University</span>
+                <span class="entry-meta">Oct 2024 – Jun 2025 · Cambridge, UK</span>
+            </div>
         </div>
         <ul>
             <li>Thesis: "Understanding and Improving Arbuscular Mycorrhizal Symbiosis through Fungal Effector Studies"</li>
             <li>Skills: Cloning, PCR, transformation, protein purification, Western blot, agroinfiltration, microscopy, ChimeraX, ImageJ, AMFinder, Benchling, R</li>
         </ul>
 
-        <div class="entry-row">
+        <div class="entry-block">
             <h3>Summer intern · Microbial collection team</h3>
-            <span class="entry-meta">FA Bio · Jul – Sep 2024 · Harpenden, UK</span>
+            <div class="entry-subrow">
+                <span class="entry-place">FA Bio</span>
+                <span class="entry-meta">Jul – Sep 2024 · Harpenden, UK</span>
+            </div>
         </div>
         <ul>
             <li>Isolated and cultured fungi from agricultural soils</li>
@@ -84,9 +91,12 @@
             <li>Skills: Fungal isolation, culturing, DNA extraction, ImageJ</li>
         </ul>
 
-        <div class="entry-row">
+        <div class="entry-block">
             <h3>Undergraduate researcher</h3>
-            <span class="entry-meta">Kew Gardens Jodrell Laboratory · Mar – Jun 2024 · London, UK</span>
+            <div class="entry-subrow">
+                <span class="entry-place">Kew Gardens Jodrell Laboratory</span>
+                <span class="entry-meta">Mar – Jun 2024 · London, UK</span>
+            </div>
         </div>
         <ul>
             <li>Thesis: "Effects of Atmospheric Pollution on Mycorrhizae of Juncus"</li>
@@ -94,9 +104,12 @@
             <li>Supervisor: Professor Martin Bidartondo</li>
         </ul>
 
-        <div class="entry-row">
+        <div class="entry-block">
             <h3>Summer intern · Downstream processing</h3>
-            <span class="entry-meta">Better Dairy · Jul – Sep 2023 · London, UK</span>
+            <div class="entry-subrow">
+                <span class="entry-place">Better Dairy</span>
+                <span class="entry-meta">Jul – Sep 2023 · London, UK</span>
+            </div>
         </div>
         <ul>
             <li>Optimised protocols for bulk protein purification and characterising milk proteins</li>
@@ -106,9 +119,12 @@
 
         <h2>Education</h2>
 
-        <div class="entry-row">
+        <div class="entry-block">
             <h3>MPhil in Biological Sciences (Crop Science)</h3>
-            <span class="entry-meta">University of Cambridge · Oct 2024 – Aug 2025 · Cambridge, UK</span>
+            <div class="entry-subrow">
+                <span class="entry-place">University of Cambridge</span>
+                <span class="entry-meta">Oct 2024 – Aug 2025 · Cambridge, UK</span>
+            </div>
         </div>
         <ul>
             <li>Hughes Hall Johnston Prize</li>
@@ -116,17 +132,23 @@
             <li>Computational Skills Training: R, bash, statistical analysis, data visualisation</li>
         </ul>
 
-        <div class="entry-row">
+        <div class="entry-block">
             <h3>BSc Biochemistry</h3>
-            <span class="entry-meta">Imperial College London · Oct 2021 – Jun 2024 · London, UK</span>
+            <div class="entry-subrow">
+                <span class="entry-place">Imperial College London</span>
+                <span class="entry-meta">Oct 2021 – Jun 2024 · London, UK</span>
+            </div>
         </div>
         <ul>
             <li>Tutored Dissertation: "Behind the Skin of Fruit Ripening" (79.05%)</li>
         </ul>
 
-        <div class="entry-row">
+        <div class="entry-block">
             <h3>International Baccalaureate Diploma</h3>
-            <span class="entry-meta">Yokohama International School · Aug 2017 – May 2021 · Kanagawa, Japan</span>
+            <div class="entry-subrow">
+                <span class="entry-place">Yokohama International School</span>
+                <span class="entry-meta">Aug 2017 – May 2021 · Kanagawa, Japan</span>
+            </div>
         </div>
         <ul>
             <li>Awarded Global Citizenship Diploma with Distinction</li>
@@ -299,12 +321,10 @@
     </div><!-- end #view-interactive -->
 
     <script>
-        // Nav frosted-glass on scroll
         window.addEventListener('scroll', () => {
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
         });
 
-        // Toggle text / interactive view
         function showView(view) {
             document.getElementById('view-text').style.display        = view === 'text'        ? 'block' : 'none';
             document.getElementById('view-interactive').style.display = view === 'interactive' ? 'block' : 'none';
