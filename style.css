@@ -1,7 +1,7 @@
 /* Google Fonts – Jost as fallback for systems without Century Gothic */
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap');
 
-/* Font and layout */
+/* ── BASE ── */
 body {
     font-family: "Century Gothic", "Trebuchet MS", "Jost", Arial, sans-serif;
     background-color: #ffffff;
@@ -10,26 +10,27 @@ body {
     padding: 0;
 }
 
-/* Navigation */
+/* ── NAVIGATION ── */
 nav {
-    background-color: #ff6600;
-    padding: 10px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eee;
+    padding: 14px;
     text-align: center;
 }
 
 nav a {
-    color: white;
+    color: #ff6600;
     margin: 0 15px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 18px;
 }
 
 nav a:hover {
-    color: #fffdd0;
+    text-decoration: underline;
 }
 
-/* Header */
+/* ── HEADER ── */
 header {
     text-align: center;
     padding: 30px;
@@ -37,18 +38,20 @@ header {
 
 h1 {
     color: #ff6600;
+    font-weight: normal;
     margin-bottom: 10px;
 }
 
 h2 {
-    color: #111;
-    border-bottom: 2px solid #ff6600;
-    padding-bottom: 5px;
+    color: #ff6600;
+    font-weight: normal;
     margin-top: 30px;
+    margin-bottom: 10px;
 }
 
 h3 {
     color: #ff6600;
+    font-weight: normal;
     margin-bottom: 5px;
 }
 
@@ -61,6 +64,56 @@ section {
 ul {
     list-style-type: disc;
     padding-left: 20px;
+}
+
+/* ── CONTACT BUTTONS ── */
+.contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    border: 2px solid #ff6600;
+    border-radius: 25px;
+    background: transparent;
+    color: #ff6600;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: "Century Gothic", "Jost", Arial, sans-serif;
+    transition: background 0.2s, color 0.2s;
+}
+
+.contact-btn:hover {
+    background: #ff6600;
+    color: #fff;
+}
+
+/* ── TEXT-ONLY CV: title + date/location on same row ── */
+.entry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 2px;
+}
+
+.entry-row h3 {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.entry-meta {
+    color: #666;
+    font-size: 13px;
+    text-align: right;
 }
 
 /* ── TIMELINE ── */
@@ -108,7 +161,7 @@ ul {
     color: #fff;
     font-family: "Century Gothic", Arial, sans-serif;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: normal;
     border-radius: 12px;
     letter-spacing: 0.5px;
 }
@@ -124,7 +177,7 @@ ul {
 .cv-btn {
     font-family: "Century Gothic", "Jost", Arial, sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: normal;
     letter-spacing: 0.5px;
     padding: 9px 28px;
     border: 2px solid #ff6600;
@@ -199,6 +252,7 @@ ul {
 
 .flip-card-back h3 {
     color: #ff6600;
+    font-weight: normal;
     margin: 0 0 6px 0;
     font-size: 15px;
 }
@@ -239,6 +293,7 @@ ul {
 
 .edu-card h3 {
     color: #ff6600;
+    font-weight: normal;
     margin: 0 0 4px 0;
     font-size: 15px;
 }

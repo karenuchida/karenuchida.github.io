@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>CV - Karen Uchida</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -13,8 +14,18 @@
     </nav>
 
     <header>
-        <h1>KAREN UCHIDA - CV</h1>
-        <p>Email: <a href="mailto:karen.uchida@tsl.ac.uk">karen.uchida@tsl.ac.uk</a></p>
+        <h1>KAREN UCHIDA</h1>
+        <div class="contact-links">
+            <a href="mailto:karen.uchida@tsl.ac.uk" class="contact-btn">
+                <i class="fa-solid fa-envelope"></i> Email
+            </a>
+            <a href="https://www.linkedin.com/in/karenuchida/" class="contact-btn" target="_blank">
+                <i class="fa-brands fa-linkedin"></i> LinkedIn
+            </a>
+            <a href="https://www.youtube.com/@renssliceoflife" class="contact-btn" target="_blank">
+                <i class="fa-brands fa-youtube"></i> YouTube
+            </a>
+        </div>
     </header>
 
     <!-- Toggle buttons -->
@@ -31,8 +42,10 @@
         <section>
             <h2>RESEARCH EXPERIENCES</h2>
 
-            <h3>Research intern in the Nobori group</h3>
-            <p>The Sainsbury Laboratory, Sep 2025 – present, Norwich, UK</p>
+            <div class="entry-row">
+                <h3>Research intern in the Nobori group</h3>
+                <span class="entry-meta">The Sainsbury Laboratory · Sep 2025 – present · Norwich, UK</span>
+            </div>
             <ul>
                 <li>Developing PHYTOMap to spatially map plant-microbiome interactions</li>
                 <li>Establishing high-throughput probe screening protocols</li>
@@ -43,15 +56,19 @@
                 <li>Skills: Confocal microscopy, R, Python</li>
             </ul>
 
-            <h3>MPhil researcher in the Schornack group</h3>
-            <p>Sainsbury Laboratory Cambridge University, Oct 2024 – Jun 2025, Cambridge, UK</p>
+            <div class="entry-row">
+                <h3>MPhil researcher in the Schornack group</h3>
+                <span class="entry-meta">Sainsbury Laboratory Cambridge University · Oct 2024 – Jun 2025 · Cambridge, UK</span>
+            </div>
             <ul>
                 <li>Thesis: "Understanding and Improving Arbuscular Mycorrhizal Symbiosis through Fungal Effector Studies"</li>
                 <li>Skills: Cloning, PCR, transformation, protein purification, Western blot, agroinfiltration, microscopy, ChimeraX, ImageJ, AMFinder, Benchling, R</li>
             </ul>
 
-            <h3>Summer intern in microbial collection team</h3>
-            <p>FA Bio, July 2024 – Sep 2024, Harpenden, UK</p>
+            <div class="entry-row">
+                <h3>Summer intern in microbial collection team</h3>
+                <span class="entry-meta">FA Bio · July 2024 – Sep 2024 · Harpenden, UK</span>
+            </div>
             <ul>
                 <li>Isolated and cultured fungi from agricultural soils</li>
                 <li>Inventory management of laboratory resources</li>
@@ -59,16 +76,20 @@
                 <li>Skills: Fungal isolation, culturing, DNA extraction, ImageJ</li>
             </ul>
 
-            <h3>Undergraduate researcher</h3>
-            <p>Kew Gardens Jodrell Laboratory, Mar 2024 – Jun 2024, London, UK</p>
+            <div class="entry-row">
+                <h3>Undergraduate researcher</h3>
+                <span class="entry-meta">Kew Gardens Jodrell Laboratory · Mar 2024 – Jun 2024 · London, UK</span>
+            </div>
             <ul>
                 <li>Thesis: "Effects of Atmospheric Pollution on Mycorrhizae of Juncus"</li>
                 <li>Submitted a 6,000-word written report and completed the viva</li>
                 <li>Supervisor: Professor Martin Bidartondo</li>
             </ul>
 
-            <h3>Summer intern in downstream processing</h3>
-            <p>Better Dairy, July 2023 – Sep 2023, London, UK</p>
+            <div class="entry-row">
+                <h3>Summer intern in downstream processing</h3>
+                <span class="entry-meta">Better Dairy · July 2023 – Sep 2023 · London, UK</span>
+            </div>
             <ul>
                 <li>Optimised protocols for bulk protein purification and characterising milk proteins</li>
                 <li>Investigated protease activity and presented findings to senior scientists</li>
@@ -79,22 +100,28 @@
         <section>
             <h2>EDUCATION</h2>
 
-            <h3>MPhil in Biological Sciences (Crop Science)</h3>
-            <p>University of Cambridge, Oct 2024 – Aug 2025, Cambridge, UK</p>
+            <div class="entry-row">
+                <h3>MPhil in Biological Sciences (Crop Science)</h3>
+                <span class="entry-meta">University of Cambridge · Oct 2024 – Aug 2025 · Cambridge, UK</span>
+            </div>
             <ul>
                 <li>Hughes Hall Johnston Prize</li>
                 <li>Extended essay: "The Phyllosphere Microbiome and its Applications in Sustainable Agriculture" (86.5%) DOI: 10.5281/zenodo.17267498</li>
                 <li>Computational Skills Training: R, bash, statistical analysis, data visualisation</li>
             </ul>
 
-            <h3>BSc Biochemistry</h3>
-            <p>Imperial College London, Oct 2021 – Jun 2024, London, UK</p>
+            <div class="entry-row">
+                <h3>BSc Biochemistry</h3>
+                <span class="entry-meta">Imperial College London · Oct 2021 – Jun 2024 · London, UK</span>
+            </div>
             <ul>
                 <li>Tutored Dissertation: "Behind the Skin of Fruit Ripening" (79.05%)</li>
             </ul>
 
-            <h3>International Baccalaureate Diploma</h3>
-            <p>Yokohama International School, Aug 2017 – May 2021, Kanagawa, Japan</p>
+            <div class="entry-row">
+                <h3>International Baccalaureate Diploma</h3>
+                <span class="entry-meta">Yokohama International School · Aug 2017 – May 2021 · Kanagawa, Japan</span>
+            </div>
             <ul>
                 <li>Awarded Global Citizenship Diploma with Distinction</li>
             </ul>
@@ -143,7 +170,6 @@
                     <div class="flip-card">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <!-- Save your photo as images/tsl.jpg -->
                                 <img src="images/tsl.jpg" alt="The Sainsbury Laboratory">
                             </div>
                             <div class="flip-card-back">
@@ -170,7 +196,6 @@
                     <div class="flip-card">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <!-- Save your photo as images/slcu.jpg -->
                                 <img src="images/slcu.jpg" alt="Sainsbury Laboratory Cambridge University">
                             </div>
                             <div class="flip-card-back">
@@ -190,7 +215,6 @@
                     <div class="flip-card">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <!-- Save your photo as images/fabio.jpg -->
                                 <img src="images/fabio.jpg" alt="FA Bio">
                             </div>
                             <div class="flip-card-back">
@@ -212,7 +236,6 @@
                     <div class="flip-card">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <!-- Save your photo as images/kew.jpg -->
                                 <img src="images/kew.jpg" alt="Kew Gardens Jodrell Laboratory">
                             </div>
                             <div class="flip-card-back">
@@ -235,7 +258,6 @@
                     <div class="flip-card">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <!-- Save your photo as images/betterdairy.jpg -->
                                 <img src="images/betterdairy.jpg" alt="Better Dairy">
                             </div>
                             <div class="flip-card-back">
