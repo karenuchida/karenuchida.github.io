@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karen Uchida</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css">
 </head>
 <body>
 
@@ -14,7 +14,6 @@
         <a href="#" class="nav-logo">KU</a>
         <div class="nav-links">
             <a href="#cv">CV</a>
-            <a href="#contact">Contact</a>
         </div>
     </nav>
 
@@ -170,15 +169,56 @@
             </ul>
         </div>
 
-        <div class="cv-entry cv-entry-simple">
-            <h2>Other Experiences</h2>
-            <ul class="entry-details">
-                <li>YouTube Channel: ren's slice of life (Sep 2021 – )</li>
-                <li>Plants @ Cambridge Botanicon 2025 committee (Jan 2025 – Jul 2025)</li>
-                <li>Hughes Hall June Event 2025 committee (Jan 2025 – Jun 2025)</li>
-                <li>Volunteer: Royal Opera House (Jul 2023 – Jun 2024)</li>
-                <li>Volunteer: The Great Exhibition Road Festival 2024 (Jun 2024)</li>
-            </ul>
+        <h2>Other Experiences</h2>
+
+        <div class="cv-entry">
+            <div class="entry-block">
+                <h3>YouTube Channel</h3>
+                <div class="entry-subrow">
+                    <span class="entry-place">ren's slice of life</span>
+                    <span class="entry-meta">Sep 2021 – present</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cv-entry">
+            <div class="entry-block">
+                <h3>Committee member</h3>
+                <div class="entry-subrow">
+                    <span class="entry-place">Plants @ Cambridge Botanicon 2025</span>
+                    <span class="entry-meta">Jan 2025 – Jul 2025</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cv-entry">
+            <div class="entry-block">
+                <h3>Committee member</h3>
+                <div class="entry-subrow">
+                    <span class="entry-place">Hughes Hall June Event 2025</span>
+                    <span class="entry-meta">Jan 2025 – Jun 2025</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cv-entry">
+            <div class="entry-block">
+                <h3>Volunteer</h3>
+                <div class="entry-subrow">
+                    <span class="entry-place">Royal Opera House</span>
+                    <span class="entry-meta">Jul 2023 – Jun 2024</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cv-entry">
+            <div class="entry-block">
+                <h3>Volunteer</h3>
+                <div class="entry-subrow">
+                    <span class="entry-place">The Great Exhibition Road Festival 2024</span>
+                    <span class="entry-meta">Jun 2024</span>
+                </div>
+            </div>
         </div>
 
         <div class="cv-entry cv-entry-simple">
@@ -202,58 +242,23 @@
     <div id="view-interactive" style="display:none">
         <div class="cv-content">
 
-        <h2>Research Experiences</h2>
+        <div class="interactive-grid">
 
-        <div class="gallery-featured">
-            <img src="images/tsl.jpg" alt="The Sainsbury Laboratory">
-        </div>
-        <div class="image-gallery">
-            <img src="images/slcu.jpg" alt="Sainsbury Laboratory Cambridge University">
-            <img src="images/fabio.jpg" alt="FA Bio">
-            <img src="images/kew.jpg" alt="Kew Gardens">
-            <img src="images/betterdairy.jpg" alt="Better Dairy">
-        </div>
-
-        <h2>Education</h2>
-
-        <div class="timeline">
-
-            <div class="timeline-year">2024</div>
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="edu-card">
-                    <h3>MPhil in Biological Sciences (Crop Science)</h3>
-                    <p class="edu-place">University of Cambridge · Oct 2024 – Aug 2025 · Cambridge, UK</p>
-                    <ul>
-                        <li>Hughes Hall Johnston Prize</li>
-                        <li>Extended essay: "The Phyllosphere Microbiome and its Applications in Sustainable Agriculture"</li>
-                        <li>Computational Skills Training: R, bash, statistical analysis, data visualisation</li>
-                    </ul>
+            <div class="col-experiences">
+                <h2>Research Experiences</h2>
+                <div class="col-masonry">
+                    <img src="images/tsl.jpg" alt="The Sainsbury Laboratory">
+                    <img src="images/slcu.jpg" alt="Sainsbury Laboratory Cambridge University">
+                    <img src="images/fabio.jpg" alt="FA Bio">
+                    <img src="images/kew.jpg" alt="Kew Gardens">
+                    <img src="images/betterdairy.jpg" alt="Better Dairy">
                 </div>
             </div>
 
-            <div class="timeline-year">2021</div>
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="edu-card">
-                    <h3>BSc Biochemistry</h3>
-                    <p class="edu-place">Imperial College London · Oct 2021 – Jun 2024 · London, UK</p>
-                    <ul>
-                        <li>Tutored Dissertation: "Behind the Skin of Fruit Ripening"</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="timeline-year">2017</div>
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="edu-card">
-                    <h3>International Baccalaureate Diploma</h3>
-                    <p class="edu-place">Yokohama International School · Aug 2017 – May 2021 · Kanagawa, Japan</p>
-                    <ul>
-                        <li>Awarded Global Citizenship Diploma with Distinction</li>
-                    </ul>
-                </div>
+            <div class="col-graduation">
+                <h2>Education</h2>
+                <img src="images/grad-mphil.jpg" alt="MPhil graduation, University of Cambridge">
+                <img src="images/grad-bsc.jpg" alt="BSc graduation, Imperial College London">
             </div>
 
         </div>
