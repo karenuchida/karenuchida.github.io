@@ -218,43 +218,52 @@ ul {
     cursor: default;
 }
 
-/* ── INTERACTIVE: 3-COLUMN GRID (experiences + graduation) ── */
-.interactive-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 24px;
-    margin-top: 8px;
-    align-items: start;
+/* ── INTERACTIVE: FEATURED IMAGE ── */
+.gallery-featured {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0 20px;
 }
 
-.col-experiences h2,
-.col-graduation h2 {
+.gallery-featured img {
+    width: 55%;
+    border-radius: 10px;
+    box-shadow: 0 2px 18px rgba(0, 0, 0, 0.10);
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .gallery-featured img {
+        width: 100%;
+    }
+}
+
+/* ── INTERACTIVE: IMAGE GALLERY (masonry, 4 columns) ── */
+.image-gallery {
+    columns: 4;
+    column-gap: 16px;
     margin-top: 0;
 }
 
-/* masonry inside the experiences column */
-.col-masonry {
-    columns: 2;
-    column-gap: 16px;
+@media (max-width: 900px) {
+    .image-gallery {
+        columns: 2;
+    }
 }
 
-.col-masonry img,
-.col-graduation img {
+@media (max-width: 600px) {
+    .image-gallery {
+        columns: 1;
+    }
+}
+
+.image-gallery img {
     width: 100%;
     display: block;
     border-radius: 10px;
     box-shadow: 0 2px 18px rgba(0, 0, 0, 0.10);
     margin-bottom: 16px;
     break-inside: avoid;
-}
-
-@media (max-width: 700px) {
-    .interactive-grid {
-        grid-template-columns: 1fr;
-    }
-    .col-masonry {
-        columns: 1;
-    }
 }
 
 /* ── EDUCATION CARDS ── */
