@@ -7,448 +7,491 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* ── RESET & BASE ─────────────────────────── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
+
         body {
-            background: #fff;
+            background: #fafafa;
             color: #111;
             font-family: 'Montserrat', Arial, sans-serif;
             font-size: 14px;
             line-height: 1.6;
         }
 
-        /* ── NAV ──────────────────────────────────── */
+        /* ── NAV ────────────────────────────────── */
         #navbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
             padding: 16px 48px;
             background: transparent;
             transition: background 0.3s, box-shadow 0.3s;
         }
         #navbar.scrolled {
-            background: rgba(255,255,255,0.92);
+            background: rgba(255,255,255,0.94);
             backdrop-filter: blur(10px);
             box-shadow: 0 1px 0 #e8e8e8;
         }
-        .nav-logo {
-            color: #ff6600;
-            font-size: 17px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-decoration: none;
-        }
+        .nav-logo { color: #ff6600; font-size: 17px; font-weight: 600; letter-spacing: 0.1em; text-decoration: none; }
         .nav-links { display: flex; gap: 28px; }
         .nav-links a {
-            color: #111;
-            text-decoration: none;
-            font-size: 12px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            opacity: 0.45;
-            transition: opacity 0.2s;
+            color: #111; text-decoration: none; font-size: 12px;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            opacity: 0.45; transition: opacity 0.2s;
         }
-        .nav-links a:hover { opacity: 1; }
+        .nav-links a:hover, .nav-links a.active { opacity: 1; color: #ff6600; }
 
-        /* ── PAGE HEADER ──────────────────────────── */
+        /* ── PAGE HEADER ─────────────────────────── */
         #page-header {
             text-align: center;
-            padding: 64px 24px 32px;
+            padding: 60px 24px 20px;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
         }
         #page-header h1 {
-            font-size: clamp(1.6rem, 4vw, 2.4rem);
-            font-weight: 300;
-            color: #ff6600;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 300; color: #ff6600;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            margin-bottom: 8px;
         }
         #page-header p {
-            margin-top: 10px;
-            color: #888;
-            font-size: 12px;
-            letter-spacing: 0.12em;
+            color: #bbb; font-size: 11px;
+            letter-spacing: 0.14em;
         }
 
-        /* ── TREE SVG ─────────────────────────────── */
-        /* The SVG draws the branching structure above the paper columns.
-           Its viewBox is 900×200 and maps directly to the 3-column grid below. */
-        #tree-svg-wrap {
-            max-width: 960px;
-            margin: 0 auto;
+        /* ── TREE HEADER (SVG) ───────────────────── */
+        /*
+         * SVG viewBox = 0 0 900 170
+         * 3 equal paper columns, each 300 units wide:
+         *   Col 1 (Amplification) centre = 150
+         *   Col 2 (Hybridisation) centre = 450
+         *   Col 3 (Sequencing)    centre = 750
+         * Imaging spans cols 1-2 → centre = 300
+         * Root spans all three   → centre = 450
+         */
+        #tree-header {
+            max-width: 1040px;
+            margin: 32px auto 0;
             padding: 0 24px;
         }
-        #tree-svg {
+        #tree-header svg {
             width: 100%;
             display: block;
             overflow: visible;
         }
 
-        /* ── PAPER COLUMNS ────────────────────────── */
-        #columns-wrap {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0 24px 80px;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            align-items: start;
-        }
-
-        .col-header {
-            text-align: center;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: #ff6600;
-            border-bottom: 2px solid #ff6600;
-            padding-bottom: 8px;
-            margin-bottom: 16px;
-        }
-
-        /* ── PAPER CARDS ──────────────────────────── */
-        .paper-card {
-            background: #fff;
-            border-left: 3px solid #ff6600;
-            border-radius: 0 8px 8px 0;
-            padding: 12px 14px;
-            margin-bottom: 12px;
-            box-shadow: 0 1px 8px rgba(0,0,0,0.07);
-            transition: box-shadow 0.2s;
-        }
-        .paper-card:hover { box-shadow: 0 3px 16px rgba(255,102,0,0.15); }
-
-        .paper-year {
-            display: inline-block;
-            font-size: 10px;
-            font-weight: 600;
-            color: #fff;
-            background: #ff6600;
-            padding: 1px 8px;
-            border-radius: 99px;
-            letter-spacing: 0.08em;
-            margin-bottom: 5px;
-        }
-        .paper-method {
-            font-size: 13px;
-            font-weight: 600;
-            color: #111;
-            line-height: 1.3;
-            margin-bottom: 3px;
-        }
-        .paper-author {
-            font-size: 11px;
-            color: #888;
-            margin-bottom: 5px;
-        }
-        .paper-doi {
-            display: block;
-            font-size: 10px;
-            color: #ff6600;
-            text-decoration: none;
-            word-break: break-all;
-            opacity: 0.75;
-            transition: opacity 0.2s;
-        }
-        .paper-doi:hover { opacity: 1; text-decoration: underline; }
-
-        /* ── LOADING / ERROR ──────────────────────── */
+        /* ── STATUS (loading / error) ────────────── */
         #status {
-            text-align: center;
-            padding: 60px 24px;
-            color: #888;
-            font-size: 13px;
-            letter-spacing: 0.08em;
+            text-align: center; padding: 60px 24px;
+            color: #aaa; font-size: 12px; letter-spacing: 0.08em;
         }
         #status.error { color: #c0392b; }
-
         .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #eee;
-            border-top-color: #ff6600;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            vertical-align: middle;
-            margin-right: 8px;
+            display: inline-block; width: 18px; height: 18px;
+            border: 2px solid #eee; border-top-color: #ff6600;
+            border-radius: 50%; animation: spin 0.7s linear infinite;
+            vertical-align: middle; margin-right: 8px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ── RESPONSIVE ───────────────────────────── */
+        /* ══════════════════════════════════════════
+           TIMELINE GRID
+           4 columns: [year axis] [amp] [hybr] [seq]
+           Each year = 1 grid row; CSS auto-sizes rows
+           to the tallest cell → years align across cols.
+           ══════════════════════════════════════════ */
+        #timeline-wrap {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 24px 100px;
+            display: none; /* shown after data loads */
+        }
+
+        /* Column label row */
+        .tl-col-labels {
+            display: grid;
+            grid-template-columns: 72px 1fr 1fr 1fr;
+            gap: 0 16px;
+            margin-bottom: 0;
+            padding-top: 24px;
+        }
+        .tl-col-label {
+            text-align: center;
+            font-size: 10px; font-weight: 600;
+            letter-spacing: 0.16em; text-transform: uppercase;
+            color: #ff6600;
+            border-bottom: 2px solid rgba(255,102,0,0.25);
+            padding-bottom: 8px;
+        }
+
+        /* The main grid */
+        #timeline-grid {
+            display: grid;
+            grid-template-columns: 72px 1fr 1fr 1fr;
+            gap: 0 16px;
+            align-items: start;
+        }
+
+        /* ── Year column cell ───────────────────── */
+        .tl-year {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0 0;
+        }
+
+        /* Vertical orange connecting line through all year cells */
+        .tl-year::before {
+            content: '';
+            position: absolute;
+            left: 50%; transform: translateX(-50%);
+            top: 0; bottom: 0;
+            width: 2px;
+            background: rgba(255,102,0,0.18);
+            z-index: 0;
+        }
+        /* First circle: line starts AT the circle centre (don't draw above it) */
+        .tl-year.first::before {
+            top: 38px; /* padding(12) + radius(26) = 38 */
+        }
+        /* Last circle: line ends AT the circle centre */
+        .tl-year.last::before {
+            bottom: auto;
+            height: 38px; /* same: padding + radius */
+        }
+
+        /* Year circle */
+        .year-dot {
+            position: relative; z-index: 1;
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: #ff6600;
+            color: #fff;
+            font-size: 10px; font-weight: 600;
+            letter-spacing: 0.02em;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; line-height: 1.25;
+            box-shadow: 0 2px 10px rgba(255,102,0,0.28);
+            flex-shrink: 0;
+        }
+
+        /* ── Paper column cells ─────────────────── */
+        .tl-cell {
+            padding: 12px 0 4px 4px;
+            position: relative;
+            min-height: 76px; /* keeps row open even when cell is empty */
+        }
+
+        /* Horizontal branch line from the left of this cell,
+           aligned with the vertical centre of the year circle.
+           Circle centre = padding-top(12) + radius(26) = 38px from cell top. */
+        .tl-cell::before {
+            content: '';
+            position: absolute;
+            top: 38px;
+            left: -8px;     /* extends into the gap between year col and paper col */
+            width: 14px;
+            height: 2px;
+            background: rgba(255,102,0,0.25);
+        }
+
+        /* Only show the branch line when the cell actually has papers */
+        .tl-cell:empty::before { display: none; }
+
+        /* ── Paper cards ────────────────────────── */
+        .paper-card {
+            background: #fff;
+            border: 1px solid #efefef;
+            border-left: 2.5px solid #ff6600;
+            border-radius: 0 6px 6px 0;
+            padding: 7px 10px 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+            transition: box-shadow 0.18s, border-left-color 0.18s;
+        }
+        .paper-card:hover {
+            box-shadow: 0 3px 14px rgba(255,102,0,0.12);
+            border-left-color: #cc4400;
+        }
+        .paper-method {
+            font-weight: 600; font-size: 12px; color: #111;
+            margin-bottom: 2px; line-height: 1.3;
+        }
+        .paper-author {
+            font-size: 10px; color: #bbb; margin-bottom: 4px;
+        }
+        .paper-doi {
+            display: block;
+            font-size: 10px; color: #ff6600;
+            text-decoration: none; word-break: break-all;
+            opacity: 0.75; transition: opacity 0.2s;
+        }
+        .paper-doi:hover { opacity: 1; text-decoration: underline; }
+
+        /* ── Responsive ─────────────────────────── */
         @media (max-width: 700px) {
-            #navbar { padding: 14px 20px; }
-            #columns-wrap { grid-template-columns: 1fr; }
+            #navbar { padding: 14px 18px; }
+            #tree-header { padding: 0 12px; }
+            #timeline-wrap { padding: 0 12px 60px; }
+            .tl-col-labels,
+            #timeline-grid {
+                grid-template-columns: 56px 1fr 1fr;
+            }
+            /* On mobile hide the Sequencing column (too narrow) — keep amp + hybr */
+            .tl-cell:nth-child(4n),
+            .tl-col-label:last-child { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAV -->
-    <nav id="navbar">
-        <a href="index.html" class="nav-logo">KU</a>
-        <div class="nav-links">
-            <a href="intro.html">Intro</a>
-            <a href="index.html#cv">CV</a>
-            <a href="spatialomics.html" style="opacity:1;color:#ff6600">Spatial Omics</a>
-        </div>
-    </nav>
-
-    <!-- HEADER -->
-    <div id="page-header">
-        <h1>Spatial Transcriptomics</h1>
-        <p>Timeline of methods · updates automatically from the source spreadsheet</p>
+<!-- NAV -->
+<nav id="navbar">
+    <a href="index.html" class="nav-logo">KU</a>
+    <div class="nav-links">
+        <a href="intro.html">Intro</a>
+        <a href="spatialomics.html" class="active">Spatial Omics</a>
+        <a href="index.html#cv">CV</a>
     </div>
+</nav>
 
-    <!-- LOADING STATE -->
-    <div id="status"><span class="spinner"></span> Loading data from spreadsheet…</div>
+<!-- PAGE HEADER -->
+<div id="page-header">
+    <h1>Spatial Transcriptomics</h1>
+    <p>Auto-updating timeline · sourced live from the research spreadsheet</p>
+</div>
 
-    <!-- TREE + COLUMNS (hidden until data loads) -->
-    <div id="tree-svg-wrap" style="display:none">
-        <!--
-            SVG Tree Diagram
-            viewBox is 900 wide, matching the 3-column grid (each col = 300 units).
-            Column centres: col-1 = 150, col-2 = 450, col-3 = 750
-            Imaging spans cols 1-2: centre = 300
-            Sequencing is col-3: centre = 750
-            Root spans all: centre = 450
-        -->
-        <svg id="tree-svg" viewBox="0 0 900 195" preserveAspectRatio="xMidYMid meet"
-             xmlns="http://www.w3.org/2000/svg">
+<!-- BRANCHING TREE HEADER (SVG) -->
+<div id="tree-header">
+    <svg viewBox="0 0 900 160" preserveAspectRatio="xMidYMid meet"
+         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 
-            <!-- ── Connecting lines ── -->
-            <!-- Root → Imaging -->
-            <line x1="450" y1="42" x2="300" y2="80" stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.35"/>
-            <!-- Root → Sequencing -->
-            <line x1="450" y1="42" x2="750" y2="80" stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.35"/>
-            <!-- Imaging → Amplification -->
-            <line x1="300" y1="116" x2="150" y2="155" stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.35"/>
-            <!-- Imaging → Hybridisation -->
-            <line x1="300" y1="116" x2="450" y2="155" stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.35"/>
-            <!-- Sequencing down to paper columns (dashed) -->
-            <line x1="750" y1="116" x2="750" y2="155" stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.2" stroke-dasharray="4 3"/>
+        <!-- Connecting lines -->
+        <line x1="450" y1="40" x2="300" y2="82"  stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.3"/>
+        <line x1="450" y1="40" x2="750" y2="82"  stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.3"/>
+        <line x1="300" y1="114" x2="150" y2="152" stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.3"/>
+        <line x1="300" y1="114" x2="450" y2="152" stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.3"/>
+        <line x1="750" y1="114" x2="750" y2="152" stroke="#ff6600" stroke-width="1.2" stroke-opacity="0.18" stroke-dasharray="4 3"/>
 
-            <!-- ── Root node ── -->
-            <rect x="155" y="8" width="590" height="34" rx="6"
-                  fill="none" stroke="#ff6600" stroke-width="1.8"/>
-            <text x="450" y="30" text-anchor="middle"
-                  fill="#ff6600" font-family="Montserrat,Arial,sans-serif"
-                  font-size="15" font-weight="500" letter-spacing="2">
-                SPATIAL TRANSCRIPTOMICS
-            </text>
+        <!-- Root: Spatial Transcriptomics -->
+        <rect x="155" y="6" width="590" height="34" rx="7" fill="none" stroke="#ff6600" stroke-width="1.8"/>
+        <text x="450" y="28" text-anchor="middle" fill="#ff6600"
+              font-family="Montserrat,Arial,sans-serif" font-size="14" font-weight="500" letter-spacing="2">
+            SPATIAL TRANSCRIPTOMICS
+        </text>
 
-            <!-- ── Imaging node ── -->
-            <rect x="120" y="80" width="360" height="36" rx="6"
-                  fill="#fff7f2" stroke="#ff6600" stroke-width="1.6"/>
-            <text x="300" y="103" text-anchor="middle"
-                  fill="#ff6600" font-family="Montserrat,Arial,sans-serif"
-                  font-size="14" font-weight="500" letter-spacing="1.5">
-                IMAGING
-            </text>
+        <!-- Imaging -->
+        <rect x="118" y="80" width="364" height="34" rx="7" fill="#fff8f4" stroke="#ff6600" stroke-width="1.5"/>
+        <text x="300" y="102" text-anchor="middle" fill="#ff6600"
+              font-family="Montserrat,Arial,sans-serif" font-size="13" font-weight="500" letter-spacing="1.5">
+            IMAGING
+        </text>
 
-            <!-- ── Sequencing node ── -->
-            <rect x="620" y="80" width="260" height="36" rx="6"
-                  fill="#fff7f2" stroke="#ff6600" stroke-width="1.6"/>
-            <text x="750" y="103" text-anchor="middle"
-                  fill="#ff6600" font-family="Montserrat,Arial,sans-serif"
-                  font-size="14" font-weight="500" letter-spacing="1.5">
-                SEQUENCING
-            </text>
+        <!-- Sequencing -->
+        <rect x="618" y="80" width="264" height="34" rx="7" fill="#fff8f4" stroke="#ff6600" stroke-width="1.5"/>
+        <text x="750" y="102" text-anchor="middle" fill="#ff6600"
+              font-family="Montserrat,Arial,sans-serif" font-size="13" font-weight="500" letter-spacing="1.5">
+            SEQUENCING
+        </text>
 
-            <!-- ── Amplification node ── -->
-            <rect x="22" y="155" width="256" height="34" rx="6"
-                  fill="#fff7f2" stroke="#ff6600" stroke-width="1.4"/>
-            <text x="150" y="177" text-anchor="middle"
-                  fill="#ff6600" font-family="Montserrat,Arial,sans-serif"
-                  font-size="12.5" font-weight="500" letter-spacing="1">
-                AMPLIFICATION
-            </text>
+        <!-- Amplification -->
+        <rect x="24"  y="150" width="252" height="0" rx="0" fill="none"/>
+        <!-- (just a line endpoint — labels come from the CSS column headers below) -->
 
-            <!-- ── Hybridisation node ── -->
-            <rect x="322" y="155" width="256" height="34" rx="6"
-                  fill="#fff7f2" stroke="#ff6600" stroke-width="1.4"/>
-            <text x="450" y="177" text-anchor="middle"
-                  fill="#ff6600" font-family="Montserrat,Arial,sans-serif"
-                  font-size="12.5" font-weight="500" letter-spacing="1">
-                HYBRIDISATION
-            </text>
+        <!-- Hybridisation -->
+        <!-- (same — labels are the CSS column headers) -->
+    </svg>
+</div>
 
-            <!-- ── Sequencing column placeholder (aligned with col 3) ── -->
-            <rect x="622" y="155" width="256" height="34" rx="6"
-                  fill="#fff7f2" stroke="#ff6600" stroke-width="1.4" stroke-opacity="0.3"/>
+<!-- LOADING -->
+<div id="status"><span class="spinner"></span> Loading from spreadsheet…</div>
 
-        </svg>
+<!-- TIMELINE -->
+<div id="timeline-wrap">
+    <div class="tl-col-labels">
+        <div></div><!-- year axis spacer -->
+        <div class="tl-col-label">Amplification</div>
+        <div class="tl-col-label">Hybridisation</div>
+        <div class="tl-col-label">Sequencing</div>
     </div>
+    <div id="timeline-grid"></div>
+</div>
 
-    <div id="columns-wrap" style="display:none">
-        <div>
-            <div class="col-header">Amplification</div>
-            <div id="col-amp"></div>
-        </div>
-        <div>
-            <div class="col-header">Hybridisation</div>
-            <div id="col-hybr"></div>
-        </div>
-        <div>
-            <div class="col-header">Sequencing</div>
-            <div id="col-seq"></div>
-        </div>
-    </div>
+<script>
+// ═══════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════
+var SHEET_ID  = '1GDGEbKghH3nxXYz98v8coWwhkBjoq7izMQlkgM1wEV8';
+var GVIZ_URL  = 'https://docs.google.com/spreadsheets/d/'
+              + SHEET_ID + '/gviz/tq?tqx=out:json';
 
-    <script>
-    // ═══════════════════════════════════════════════════════
-    //  CONFIG
-    // ═══════════════════════════════════════════════════════
-    var SHEET_ID = '1GDGEbKghH3nxXYz98v8coWwhkBjoq7izMQlkgM1wEV8';
-    var GVIZ_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID
-                + '/gviz/tq?tqx=out:json';
+// ═══════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════
 
-    // ═══════════════════════════════════════════════════════
-    //  PARSE YEAR from gviz date cell
-    //  gviz returns dates as: { v: "Date(2026,2,12)", f: "2026" }
-    // ═══════════════════════════════════════════════════════
-    function parseYear(cell) {
-        if (!cell || cell.v == null) return null;
-        // Formatted value first (most reliable)
-        if (cell.f) {
-            var m = String(cell.f).match(/\d{4}/);
-            if (m) return parseInt(m[0]);
-        }
-        // Parse Date(year, ...) string
-        if (typeof cell.v === 'string') {
-            var dm = cell.v.match(/Date\((\d{4})/);
-            if (dm) return parseInt(dm[1]);
-        }
-        // Plain number
-        var n = parseInt(cell.v);
-        if (!isNaN(n) && n > 1900 && n < 2100) return n;
-        return null;
+// Parse year from a gviz date cell.
+// gviz returns dates as: { v: "Date(2024,6,15)", f: "2024" }
+function parseYear(cell) {
+    if (!cell || cell.v == null) return null;
+    if (cell.f) {
+        var m = String(cell.f).match(/\d{4}/);
+        if (m) return parseInt(m[0]);
     }
-
-    function cellVal(cell) {
-        if (!cell || cell.v == null) return '';
-        return String(cell.v).trim();
+    if (typeof cell.v === 'string') {
+        var dm = cell.v.match(/Date\((\d{4})/);
+        if (dm) return parseInt(dm[1]);
     }
+    var n = parseInt(cell.v);
+    return (!isNaN(n) && n > 1900 && n < 2200) ? n : null;
+}
 
-    // ═══════════════════════════════════════════════════════
-    //  RENDER one paper card
-    // ═══════════════════════════════════════════════════════
-    function paperCard(row) {
-        var year   = row.year  ? String(row.year) : '';
-        var method = row.method || '—';
-        var author = row.author || '';
-        var doi    = row.doi || '';
-        // Show DOI as the clean identifier (strip https://doi.org/ prefix for display)
-        var doiDisplay = doi.replace(/^https?:\/\/(dx\.)?doi\.org\//i, '');
+function cellStr(cell) {
+    return (cell && cell.v != null) ? String(cell.v).trim() : '';
+}
 
-        return '<div class="paper-card">'
-            + (year ? '<span class="paper-year">' + year + '</span>' : '')
-            + '<div class="paper-method">' + escHtml(method) + '</div>'
-            + (author ? '<div class="paper-author">' + escHtml(author) + '</div>' : '')
-            + (doi ? '<a class="paper-doi" href="' + escAttr(doi) + '" target="_blank" rel="noopener">'
-                   + escHtml(doiDisplay) + '</a>' : '')
-            + '</div>';
+function esc(s) {
+    return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER one paper card (no year badge)
+// ═══════════════════════════════════════════════════
+function paperCard(p) {
+    var doi        = p.doi;
+    var doiDisplay = doi.replace(/^https?:\/\/(dx\.)?doi\.org\//i, '');
+    return '<div class="paper-card">'
+        + '<div class="paper-method">' + esc(p.method) + '</div>'
+        + (p.author ? '<div class="paper-author">' + esc(p.author) + '</div>' : '')
+        + (doi ? '<a class="paper-doi" href="' + doi.replace(/"/g,'%22') + '"'
+               + ' target="_blank" rel="noopener">' + esc(doiDisplay) + '</a>' : '')
+        + '</div>';
+}
+
+// ═══════════════════════════════════════════════════
+//  BUILD TIMELINE
+//  One grid row per year. The CSS Grid auto-sizes each
+//  row to the tallest cell → years align across all
+//  three paper columns automatically.
+// ═══════════════════════════════════════════════════
+function buildTimeline(rows) {
+    // ── Categorise ──────────────────────────────────
+    var amp  = [], hybr = [], seq  = [];
+    rows.forEach(function(r) {
+        var mt = r.methodType.toLowerCase();
+        var it = r.imagingType.toLowerCase();
+        if      (mt === 'imaging' && it === 'amplification') amp.push(r);
+        else if (mt === 'imaging' && it === 'hybridisation') hybr.push(r);
+        else if (mt === 'sequencing')                        seq.push(r);
+    });
+
+    // ── Group each category by year ─────────────────
+    function groupByYear(list) {
+        var map = {};
+        list.forEach(function(r) {
+            var y = r.year || 'unknown';
+            if (!map[y]) map[y] = [];
+            map[y].push(r);
+        });
+        return map;
     }
+    var ampByYear  = groupByYear(amp);
+    var hybrByYear = groupByYear(hybr);
+    var seqByYear  = groupByYear(seq);
 
-    function escHtml(s) {
-        return String(s)
-            .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-            .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-    function escAttr(s) { return String(s).replace(/"/g,'%22'); }
+    // ── Collect all years present in any column ──────
+    var yearSet = {};
+    [ampByYear, hybrByYear, seqByYear].forEach(function(m) {
+        Object.keys(m).forEach(function(y) {
+            if (y !== 'unknown') yearSet[y] = true;
+        });
+    });
+    var years = Object.keys(yearSet).map(Number).sort(function(a,b){ return a - b; });
 
-    // ═══════════════════════════════════════════════════════
-    //  RENDER a column of papers (oldest → newest, top → bottom)
-    // ═══════════════════════════════════════════════════════
-    function renderColumn(id, papers) {
-        var el = document.getElementById(id);
-        if (!papers.length) {
-            el.innerHTML = '<p style="color:#ccc;font-size:12px;text-align:center;padding:20px 0">No entries yet</p>';
-            return;
-        }
-        el.innerHTML = papers.map(paperCard).join('');
-    }
+    // ── Build grid HTML ──────────────────────────────
+    var html = '';
+    years.forEach(function(year, idx) {
+        var isFirst = idx === 0;
+        var isLast  = idx === years.length - 1;
+        var yKey    = String(year);
 
-    // ═══════════════════════════════════════════════════════
-    //  FETCH & BUILD
-    // ═══════════════════════════════════════════════════════
-    fetch(GVIZ_URL)
-        .then(function(r) { return r.text(); })
-        .then(function(text) {
-            // Strip the JSONP wrapper: /*O_o*/\ngoogle.visualization.Query.setResponse({...});
-            var start = text.indexOf('(') + 1;
-            var end   = text.lastIndexOf(')');
-            if (start <= 0 || end <= start) throw new Error('Unexpected response format');
+        // Year circle cell
+        html += '<div class="tl-year'
+              + (isFirst ? ' first' : '')
+              + (isLast  ? ' last'  : '') + '">'
+              + '<div class="year-dot">' + year + '</div>'
+              + '</div>';
 
-            var data  = JSON.parse(text.substring(start, end));
-            var table = data.table;
-            var cols  = table.cols.map(function(c) { return c.label; });
+        // Three paper cells (amp, hybr, seq)
+        [ampByYear, hybrByYear, seqByYear].forEach(function(map) {
+            var papers = map[yKey] || [];
+            if (papers.length) {
+                html += '<div class="tl-cell">'
+                      + papers.map(paperCard).join('')
+                      + '</div>';
+            } else {
+                html += '<div class="tl-cell"></div>';
+            }
+        });
+    });
 
-            // Build row objects
-            var rows = (table.rows || [])
-                .filter(function(r) { return r && r.c; })
-                .map(function(r) {
-                    var obj = {};
-                    cols.forEach(function(label, i) {
-                        obj[label] = r.c[i] || null;
-                    });
-                    return {
-                        year:       parseYear(obj['Date published']),
-                        doi:        cellVal(obj['Link']),
-                        author:     cellVal(obj['First author']),
-                        method:     cellVal(obj['Method']),
-                        methodType: cellVal(obj['Method type']),
-                        imagingType:cellVal(obj['Imaging type'])
-                    };
-                })
-                .filter(function(r) { return r.method; }); // skip blank rows
+    document.getElementById('timeline-grid').innerHTML = html;
+    document.getElementById('timeline-wrap').style.display = 'block';
+}
 
-            // Sort oldest → newest (null years go to the bottom)
-            rows.sort(function(a, b) {
-                if (a.year == null && b.year == null) return 0;
-                if (a.year == null) return 1;
-                if (b.year == null) return -1;
-                return a.year - b.year;
-            });
+// ═══════════════════════════════════════════════════
+//  FETCH
+// ═══════════════════════════════════════════════════
+fetch(GVIZ_URL)
+    .then(function(r) { return r.text(); })
+    .then(function(text) {
+        var start = text.indexOf('(') + 1;
+        var end   = text.lastIndexOf(')');
+        if (start <= 0 || end <= start) throw new Error('Could not parse response');
 
-            // Split into three columns
-            var amp  = rows.filter(function(r) {
-                return r.methodType.toLowerCase() === 'imaging'
-                    && r.imagingType.toLowerCase() === 'amplification';
-            });
-            var hybr = rows.filter(function(r) {
-                return r.methodType.toLowerCase() === 'imaging'
-                    && r.imagingType.toLowerCase() === 'hybridisation';
-            });
-            var seq  = rows.filter(function(r) {
-                return r.methodType.toLowerCase() === 'sequencing';
-            });
+        var data  = JSON.parse(text.substring(start, end));
+        var cols  = data.table.cols.map(function(c) { return c.label; });
 
-            // Render
-            renderColumn('col-amp',  amp);
-            renderColumn('col-hybr', hybr);
-            renderColumn('col-seq',  seq);
+        var rows = (data.table.rows || [])
+            .filter(function(r) { return r && r.c; })
+            .map(function(r) {
+                var get = function(label) { return r.c[cols.indexOf(label)] || null; };
+                return {
+                    year:        parseYear(get('Date published')),
+                    doi:         cellStr(get('Link')),
+                    author:      cellStr(get('First author')),
+                    method:      cellStr(get('Method')),
+                    methodType:  cellStr(get('Method type')),
+                    imagingType: cellStr(get('Imaging type'))
+                };
+            })
+            .filter(function(r) { return r.method && r.methodType; });
 
-            // Show content, hide spinner
-            document.getElementById('status').style.display      = 'none';
-            document.getElementById('tree-svg-wrap').style.display = 'block';
-            document.getElementById('columns-wrap').style.display  = 'grid';
-        })
-        .catch(function(err) {
-            var s = document.getElementById('status');
-            s.className = 'error';
-            s.innerHTML = '⚠ Could not load data. Make sure the Google Sheet is shared publicly (Anyone with the link can view).<br><small>' + err.message + '</small>';
+        // Sort oldest → newest
+        rows.sort(function(a, b) {
+            if (a.year == null && b.year == null) return 0;
+            if (a.year == null) return  1;
+            if (b.year == null) return -1;
+            return a.year - b.year;
         });
 
-    // ─── Navbar scroll tint ───────────────────────────────
-    window.addEventListener('scroll', function () {
-        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+        document.getElementById('status').style.display = 'none';
+        buildTimeline(rows);
+    })
+    .catch(function(err) {
+        var s = document.getElementById('status');
+        s.className = 'error';
+        s.innerHTML = '⚠ Could not load data.<br>'
+            + '<small>Make sure the Google Sheet is shared as "Anyone with the link can view".</small><br>'
+            + '<small style="opacity:0.6">' + err.message + '</small>';
     });
-    </script>
+
+// Navbar tint
+window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+</script>
 
 </body>
 </html>
