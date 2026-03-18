@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karen Uchida</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css">
 </head>
 <body>
 
@@ -22,14 +21,26 @@
         <h1>KAREN UCHIDA</h1>
         <div class="contact-links" id="contact">
             <a href="mailto:karen.uchida@tsl.ac.uk" class="contact-btn">
-                <i class="fa-solid fa-envelope"></i> karen.uchida@tsl.ac.uk
+                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7L12 13.5 2 7"/></svg>
+                karen.uchida@tsl.ac.uk
             </a>
             <a href="https://www.linkedin.com/in/karenuchida/" class="contact-btn" target="_blank">
-                <i class="fa-brands fa-linkedin"></i> Karen Uchida
+                <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                Karen Uchida
             </a>
             <a href="https://www.youtube.com/@renssliceoflife" class="contact-btn" target="_blank">
-                <i class="fa-brands fa-youtube"></i> @renssliceoflife
+                <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                @renssliceoflife
             </a>
+        </div>
+    </section>
+
+    <!-- ── GLOBE ── -->
+    <section id="globe-section">
+        <canvas id="globe-canvas"></canvas>
+        <div class="globe-overlay">
+            <p class="globe-subtitle">A journey across three countries</p>
+            <p id="globe-location">Yokohama, Japan</p>
         </div>
     </section>
 
@@ -252,6 +263,8 @@
             <img src="images/fabio.jpg" alt="FA Bio">
             <img src="images/kew.jpg" alt="Kew Gardens">
             <img src="images/betterdairy.jpg" alt="Better Dairy">
+            <img src="images/grad-mphil.jpg" alt="MPhil graduation, University of Cambridge">
+            <img src="images/grad-bsc.jpg" alt="BSc graduation, Imperial College London">
         </div>
 
         <h2>Education</h2>
@@ -316,6 +329,189 @@
 
         </div>
     </div><!-- end #view-interactive -->
+
+    <!-- ── THREE.JS GLOBE ── -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.min.js"></script>
+    <script>
+    (function () {
+        // ── helpers ──────────────────────────────────────────────
+        // Three.js SphereGeometry formula: lat/lng → local 3D point
+        // phi   = (lng+180)/360 * 2π  (azimuthal around Y)
+        // theta = (90-lat)/180  * π   (polar from top)
+        function ll3d(lat, lng, r) {
+            var phi   = ((lng + 180) / 360) * 2 * Math.PI;
+            var theta = ((90 - lat) / 180) * Math.PI;
+            return new THREE.Vector3(
+                -r * Math.cos(phi) * Math.sin(theta),
+                 r * Math.cos(theta),
+                 r * Math.sin(phi) * Math.sin(theta)
+            );
+        }
+
+        // Quaternion that rotates the sphere so (lat,lng) faces +Z (the camera)
+        function targetQ(lat, lng) {
+            return new THREE.Quaternion().setFromUnitVectors(
+                ll3d(lat, lng, 1).normalize(),
+                new THREE.Vector3(0, 0, 1)
+            );
+        }
+
+        // ── scene ─────────────────────────────────────────────────
+        var section  = document.getElementById('globe-section');
+        var canvas   = document.getElementById('globe-canvas');
+        var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(section.clientWidth, section.clientHeight);
+
+        var scene  = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(42, section.clientWidth / section.clientHeight, 0.1, 200);
+        camera.position.set(0, 0, 3.2);
+        camera.lookAt(0, 0, 0);
+
+        // stars
+        var sp = new Float32Array(7000 * 3);
+        for (var i = 0; i < sp.length; i++) sp[i] = (Math.random() - 0.5) * 300;
+        var sg = new THREE.BufferGeometry();
+        sg.setAttribute('position', new THREE.BufferAttribute(sp, 3));
+        var stars = new THREE.Points(sg, new THREE.PointsMaterial({ color: 0xffffff, size: 0.2 }));
+        scene.add(stars);
+
+        // earth
+        var earthGeo = new THREE.SphereGeometry(1, 64, 64);
+        var tex = new THREE.TextureLoader().load(
+            'https://cdn.jsdelivr.net/npm/three-globe@2/example/img/earth-blue-marble.jpg'
+        );
+        var earth = new THREE.Mesh(earthGeo, new THREE.MeshPhongMaterial({
+            map: tex, shininess: 15, specular: new THREE.Color(0x223344)
+        }));
+        scene.add(earth);
+
+        // atmosphere glow
+        scene.add(new THREE.Mesh(
+            new THREE.SphereGeometry(1.08, 64, 64),
+            new THREE.MeshBasicMaterial({ color: 0x1a5cff, transparent: true, opacity: 0.09, side: THREE.BackSide })
+        ));
+
+        // lighting
+        scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+        var sun = new THREE.DirectionalLight(0xfff5e0, 1.3);
+        sun.position.set(5, 3, 4);
+        scene.add(sun);
+
+        // location markers (children of earth, so they rotate with it)
+        [[35.44,139.64],[28.46,77.03],[51.51,-0.13],[52.21,0.12],[52.63,1.30]].forEach(function(c) {
+            var pos = ll3d(c[0], c[1], 1.015);
+            var dot = new THREE.Mesh(new THREE.SphereGeometry(0.013, 16, 16),
+                new THREE.MeshBasicMaterial({ color: 0xff6600 }));
+            dot.position.copy(pos);
+            earth.add(dot);
+            var halo = new THREE.Mesh(new THREE.SphereGeometry(0.024, 16, 16),
+                new THREE.MeshBasicMaterial({ color: 0xff6600, transparent: true, opacity: 0.22 }));
+            halo.position.copy(pos);
+            earth.add(halo);
+        });
+
+        // ── waypoints ─────────────────────────────────────────────
+        // Each entry: [label, lat, lng, cameraZ]
+        // Same lat/lng with different cameraZ = zoom in / zoom out
+        var WP = [
+            ["Yokohama, Japan",  35.44, 139.64, 2.8],   // 0  zoom in
+            ["Yokohama, Japan",  35.44, 139.64, 3.8],   // 1  zoom out
+            ["Gurgaon, India",   28.46,  77.03, 2.8],   // 2  fly + zoom in
+            ["Gurgaon, India",   28.46,  77.03, 3.8],   // 3  zoom out
+            ["Yokohama, Japan",  35.44, 139.64, 2.8],   // 4  fly back + zoom in
+            ["Yokohama, Japan",  35.44, 139.64, 3.8],   // 5  zoom out
+            ["London, UK",       51.51,  -0.13, 2.8],   // 6  fly + zoom in
+            ["Cambridge, UK",    52.21,   0.12, 3.0],   // 7  fly
+            ["Norwich, UK",      52.63,   1.30, 3.0],   // 8  fly
+            ["Norwich, UK",      52.63,   1.30, 3.0],   // 9  hold
+        ];
+        var QUATS = WP.map(function(w) { return targetQ(w[1], w[2]); });
+
+        // ── animation ─────────────────────────────────────────────
+        var DURATION = 18000; // ms for full journey
+        var startTime = null;
+        var running   = false;
+        var raf       = null;
+
+        function eio(t) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
+
+        var locLabel   = document.getElementById('globe-location');
+        var curLabel   = '';
+        var fadeLock   = false;
+
+        function setLabel(name) {
+            if (name === curLabel || fadeLock) return;
+            fadeLock = true;
+            locLabel.style.opacity = '0';
+            setTimeout(function() {
+                locLabel.textContent = name;
+                curLabel = name;
+                locLabel.style.opacity = '1';
+                fadeLock = false;
+            }, 350);
+        }
+
+        function tick(ts) {
+            if (!running) return;
+            raf = requestAnimationFrame(tick);
+            if (!startTime) startTime = ts;
+
+            var progress  = Math.min(1, (ts - startTime) / DURATION);
+            var numSegs   = WP.length - 1;
+            var raw       = progress * numSegs;
+            var idx       = Math.min(Math.floor(raw), numSegs - 1);
+            var t         = eio(raw - idx);
+
+            // sphere rotation
+            var q = new THREE.Quaternion();
+            q.slerpQuaternions(QUATS[idx], QUATS[idx + 1], t);
+            earth.quaternion.copy(q);
+
+            // camera zoom
+            camera.position.z = WP[idx][3] + (WP[idx+1][3] - WP[idx][3]) * t;
+            camera.lookAt(0, 0, 0);
+
+            // label
+            setLabel(t < 0.5 ? WP[idx][0] : WP[idx+1][0]);
+
+            // slow star drift
+            stars.rotation.y += 0.00006;
+
+            renderer.render(scene, camera);
+
+            // loop
+            if (progress >= 1) startTime = ts;
+        }
+
+        function startGlobe() {
+            if (running) return;
+            running = true;
+            startTime = null;
+            raf = requestAnimationFrame(tick);
+        }
+
+        function stopGlobe() {
+            running = false;
+            if (raf) { cancelAnimationFrame(raf); raf = null; }
+        }
+
+        // start/stop when section enters/leaves viewport
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+                if (e.isIntersecting) { startGlobe(); } else { stopGlobe(); }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(section);
+
+        // resize
+        window.addEventListener('resize', function() {
+            renderer.setSize(section.clientWidth, section.clientHeight);
+            camera.aspect = section.clientWidth / section.clientHeight;
+            camera.updateProjectionMatrix();
+        });
+    })();
+    </script>
 
     <script>
         window.addEventListener('scroll', () => {

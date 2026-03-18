@@ -111,6 +111,65 @@ body {
     color: #fff;
 }
 
+.contact-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* ── GLOBE SECTION ── */
+#globe-section {
+    position: relative;
+    width: 100%;
+    height: 72vh;
+    min-height: 380px;
+    background: #00060f;
+    overflow: hidden;
+}
+
+#globe-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.globe-overlay {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.globe-subtitle {
+    color: rgba(255,255,255,0.35);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+#globe-location {
+    display: inline-block;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,102,0,0.55);
+    padding: 7px 22px;
+    border-radius: 99px;
+    backdrop-filter: blur(10px);
+    transition: opacity 0.4s;
+}
+
 /* ── CV WRAPPER ── */
 .cv-content {
     max-width: 900px;
@@ -238,9 +297,9 @@ ul {
     }
 }
 
-/* ── INTERACTIVE: IMAGE GALLERY (masonry, 4 columns) ── */
+/* ── INTERACTIVE: IMAGE GALLERY (masonry, 3 columns) ── */
 .image-gallery {
-    columns: 4;
+    columns: 3;
     column-gap: 16px;
     margin-top: 0;
 }
