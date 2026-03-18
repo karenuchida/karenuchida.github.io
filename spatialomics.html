@@ -75,13 +75,12 @@
             display: none;
         }
 
-        /* "Timeline" heading */
+        /* Section headings — bigger, mixed case */
         .section-heading {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: #999;
+            font-size: 17px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: #222;
             text-align: center;
             padding: 0 0 28px;
         }
@@ -94,56 +93,43 @@
             align-items: stretch;
         }
 
-        /* ── Column header labels ── */
+        /* ── Column header labels — bigger, mixed case, no border ── */
         .col-header {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: #444;
-            padding: 0 0 10px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #333;
+            padding: 0 0 6px;
             align-self: start;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            margin-bottom: 6px;
         }
-        .col-header.img-header {
-            text-align: right;
-            padding-right: 6px;
-        }
-        .col-header.seq-header {
-            text-align: left;
-            padding-left: 6px;
-        }
-        .col-header-spacer {
-            align-self: start;
-            padding: 0 0 10px;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            margin-bottom: 6px;
-        }
+        .col-header.img-header { text-align: right; padding-right: 6px; }
+        .col-header.seq-header { text-align: left;  padding-left: 6px; }
 
-        /* Colour legend under the sequencing header */
-        .col-legend {
+        /* Colour legend under Imaging-based — horizontal */
+        .col-legend-horiz {
             display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 8px 0 0 6px;
-            align-self: start;
+            flex-direction: row;
+            gap: 14px;
+            justify-content: flex-end;
+            padding: 5px 6px 8px 0;
         }
         .col-legend-item {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             font-size: 10px;
             color: #666;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
         }
         .col-legend-swatch {
-            width: 12px; height: 12px;
-            border-radius: 2px;
-            flex-shrink: 0;
+            width: 11px; height: 11px;
+            border-radius: 2px; flex-shrink: 0;
         }
         .col-legend-swatch.amp  { background: #fffce8; border: 1.5px solid #d4b800; }
         .col-legend-swatch.hybr { background: #f8f3ff; border: 1.5px solid #9b7fd4; }
+
+        /* Spacer for year-axis header position */
+        .col-header-spacer { align-self: start; padding: 0 0 6px; }
 
         /* ── Year axis cell ── */
         .year-cell {
@@ -152,9 +138,10 @@
             flex-direction: column;
             align-items: center;
             padding-top: 12px;
+            min-height: 160px;
         }
 
-        /* Vertical connecting line — slate gray, no horizontal ticks */
+        /* Vertical connecting line — slate gray, NO horizontal ticks */
         .year-cell::before {
             content: '';
             position: absolute;
@@ -175,9 +162,8 @@
             background: #4a5568;
             color: #fff;
             font-size: 10px; font-weight: 600;
-            letter-spacing: 0.02em;
             display: flex; align-items: center; justify-content: center;
-            text-align: center; line-height: 1.25;
+            text-align: center;
             box-shadow: 0 2px 10px rgba(74,85,104,0.25);
             flex-shrink: 0;
         }
@@ -188,7 +174,7 @@
             padding: 8px 0 10px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            min-height: 160px;
         }
         .img-col { padding-right: 6px; }
         .seq-col { padding-left:  6px; }
@@ -199,54 +185,36 @@
             align-items: center;
             min-width: 0;
             margin-bottom: 5px;
+            flex-shrink: 0;
         }
 
         /* ─────────────────────────────────────────
            IMAGING (left column)
-
-           NEAR (Breakthrough / Original):
-             Card pushed RIGHT close to year axis.
-             padding-left creates empty space on far left.
-             [card][short line] → flex-end
-
-           FAR (all others):
-             Card on LEFT, far from axis.
-             [card][growing fading line] → flex-start
+           NEAR (Breakthrough/Original): pushed RIGHT, close to axis.
+           FAR (others): on LEFT, far from axis.
            ───────────────────────────────────────── */
-        .paper-row.img-near {
-            justify-content: flex-end;
-            padding-left: 30%;
-        }
+        .paper-row.img-near { justify-content: flex-end; padding-left: 30%; }
         .paper-row.img-near .pcard { flex-shrink: 0; max-width: 240px; }
         .paper-row.img-near .pline { width: 14px; flex-shrink: 0; height: 1px; }
 
-        .paper-row.img-far {
-            justify-content: flex-start;
-        }
-        .paper-row.img-far .pcard { flex-shrink: 0; max-width: 200px; }
-        .paper-row.img-far .pline { flex-grow: 1; height: 1px; }
+        .paper-row.img-far  { justify-content: flex-start; }
+        .paper-row.img-far  .pcard { flex-shrink: 0; max-width: 200px; }
+        .paper-row.img-far  .pline { flex-grow: 1; height: 1px; }
 
         /* ─────────────────────────────────────────
            SEQUENCING (right column)
-
-           NEAR: [short line][card] left-aligned → close to axis.
-           FAR:  [growing fading line][card] right-aligned → far from axis.
-           Line comes before card via CSS order.
+           NEAR: line then card, left-aligned (close to axis).
+           FAR:  growing line then card, right-aligned.
            ───────────────────────────────────────── */
-        .paper-row.seq-near {
-            justify-content: flex-start;
-            padding-right: 30%;
-        }
+        .paper-row.seq-near { justify-content: flex-start; padding-right: 30%; }
         .paper-row.seq-near .pline { width: 14px; flex-shrink: 0; height: 1px; order: 1; }
         .paper-row.seq-near .pcard { flex-shrink: 0; max-width: 240px; order: 2; }
 
-        .paper-row.seq-far {
-            justify-content: flex-end;
-        }
-        .paper-row.seq-far .pline { flex-grow: 1; height: 1px; order: 1; }
-        .paper-row.seq-far .pcard { flex-shrink: 0; max-width: 200px; order: 2; }
+        .paper-row.seq-far  { justify-content: flex-end; }
+        .paper-row.seq-far  .pline { flex-grow: 1; height: 1px; order: 1; }
+        .paper-row.seq-far  .pcard { flex-shrink: 0; max-width: 200px; order: 2; }
 
-        /* ── Branch line colours by card type ── */
+        /* ── Branch line colours ── */
         .paper-row.img-near.amplification .pline { background: rgba(212,184,0,0.55); }
         .paper-row.img-far.amplification  .pline { background: linear-gradient(to right, transparent, rgba(212,184,0,0.4)); }
         .paper-row.img-near.hybridisation .pline { background: rgba(155,127,212,0.55); }
@@ -254,7 +222,7 @@
         .paper-row.seq-near.sequencing    .pline { background: rgba(150,150,150,0.4); }
         .paper-row.seq-far.sequencing     .pline { background: linear-gradient(to left, transparent, rgba(150,150,150,0.35)); }
 
-        /* ── Paper cards — uniform border on all sides ── */
+        /* ── Paper cards — uniform border ── */
         .pcard {
             border-radius: 5px;
             padding: 6px 10px 7px;
@@ -263,25 +231,12 @@
             min-width: 0;
         }
         .pcard:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.10); }
+        .pcard.amplification { background: #fffce8; border: 1.5px solid #d4b800; }
+        .pcard.hybridisation { background: #f8f3ff; border: 1.5px solid #9b7fd4; }
+        .pcard.sequencing    { background: #ffffff; border: 1.5px solid #c8c8c8; }
 
-        .pcard.amplification {
-            background: #fffce8;
-            border: 1.5px solid #d4b800;
-        }
-        .pcard.hybridisation {
-            background: #f8f3ff;
-            border: 1.5px solid #9b7fd4;
-        }
-        .pcard.sequencing {
-            background: #ffffff;
-            border: 1.5px solid #c8c8c8;
-        }
-
-        .paper-method {
-            font-weight: 600; font-size: 11.5px; color: #111;
-            margin-bottom: 2px; line-height: 1.3;
-        }
-        .paper-author { font-size: 10px; color: #aaa; margin-bottom: 3px; }
+        .paper-method   { font-weight: 600; font-size: 11.5px; color: #111; margin-bottom: 2px; line-height: 1.3; }
+        .paper-organism { font-size: 10px; color: #888; margin-bottom: 3px; font-style: italic; }
         .paper-doi {
             display: block; font-size: 10px;
             text-decoration: none; word-break: break-all;
@@ -298,18 +253,13 @@
         #bubble-section {
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 24px 100px;
+            padding: 20px 24px 100px;
             text-align: center;
             display: none;
         }
-        #bubble-section .section-heading {
-            padding: 0 0 36px;
-        }
         #bubble-chart svg {
-            width: 100%;
-            max-width: 700px;
-            display: block;
-            margin: 0 auto;
+            width: 100%; max-width: 700px;
+            display: block; margin: 0 auto;
             overflow: visible;
         }
 
@@ -320,10 +270,8 @@
             #timeline-grid { grid-template-columns: 1fr 50px 1fr; }
             .paper-row.img-near { padding-left: 0; }
             .paper-row.seq-near { padding-right: 0; }
-            .paper-row.img-near .pcard,
-            .paper-row.img-far  .pcard,
-            .paper-row.seq-near .pcard,
-            .paper-row.seq-far  .pcard { max-width: 130px; }
+            .paper-row.img-near .pcard, .paper-row.img-far  .pcard,
+            .paper-row.seq-near .pcard, .paper-row.seq-far  .pcard { max-width: 130px; }
             .year-dot { width: 40px; height: 40px; font-size: 8.5px; }
         }
     </style>
@@ -335,8 +283,8 @@
     <a href="index.html" class="nav-logo">KU</a>
     <div class="nav-links">
         <a href="intro.html">Intro</a>
-        <a href="spatialomics.html" class="active">Spatial Omics</a>
         <a href="index.html#cv">CV</a>
+        <a href="spatialomics.html" class="active">Spatial Omics</a>
     </div>
 </nav>
 
@@ -371,18 +319,27 @@ var GVIZ_URL = 'https://docs.google.com/spreadsheets/d/'
 // ═══════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════
-function parseYear(cell) {
-    if (!cell || cell.v == null) return null;
+
+// Parse year AND month from a gviz date cell.
+// gviz uses JS-style 0-indexed months: Date(2023,5,15) = June 15 2023.
+function parseDate(cell) {
+    var out = { year: null, month: null };
+    if (!cell || cell.v == null) return out;
+    if (typeof cell.v === 'string') {
+        var dm = cell.v.match(/Date\((\d+),(\d+)/);
+        if (dm) {
+            out.year  = parseInt(dm[1]);
+            out.month = parseInt(dm[2]) + 1; // convert 0-indexed → 1-indexed (1=Jan, 12=Dec)
+            return out;
+        }
+    }
     if (cell.f) {
         var m = String(cell.f).match(/\d{4}/);
-        if (m) return parseInt(m[0]);
-    }
-    if (typeof cell.v === 'string') {
-        var dm = cell.v.match(/Date\((\d{4})/);
-        if (dm) return parseInt(dm[1]);
+        if (m) { out.year = parseInt(m[0]); return out; }
     }
     var n = parseInt(cell.v);
-    return (!isNaN(n) && n > 1900 && n < 2200) ? n : null;
+    if (!isNaN(n) && n > 1900 && n < 2200) { out.year = n; return out; }
+    return out;
 }
 
 function cellStr(cell) {
@@ -395,13 +352,13 @@ function esc(s) {
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// Case-insensitive column index lookup — tries multiple name variants
+// Case-insensitive column lookup — tries multiple name variants
 function findCol(cols) {
     var names = Array.prototype.slice.call(arguments, 1);
     for (var i = 0; i < names.length; i++) {
-        var target = names[i].toLowerCase().replace(/\s+/g,' ').trim();
+        var t = names[i].toLowerCase().replace(/\s+/g,' ').trim();
         for (var j = 0; j < cols.length; j++) {
-            if (cols[j].toLowerCase().replace(/\s+/g,' ').trim() === target) return j;
+            if (cols[j].toLowerCase().replace(/\s+/g,' ').trim() === t) return j;
         }
     }
     return -1;
@@ -419,10 +376,57 @@ function paperCard(p) {
     var doiDisplay = doi.replace(/^https?:\/\/(dx\.)?doi\.org\//i, '');
     return '<div class="pcard ' + p.cardType + '">'
          + '<div class="paper-method">' + esc(p.method) + '</div>'
-         + (p.author ? '<div class="paper-author">' + esc(p.author) + '</div>' : '')
+         + (p.organism ? '<div class="paper-organism">' + esc(p.organism) + '</div>' : '')
          + (doi ? '<a class="paper-doi" href="' + doi.replace(/"/g,'%22') + '"'
                 + ' target="_blank" rel="noopener">' + esc(doiDisplay) + '</a>' : '')
          + '</div>';
+}
+
+// ═══════════════════════════════════
+//  RENDER one column's papers for a year,
+//  with month-based vertical spacing.
+//
+//  Descending timeline: Dec (month 12) at top,
+//  Jan (month 1) at bottom within each year section.
+//  Papers sorted by month descending, with proportional
+//  spacers inserted between them.
+// ═══════════════════════════════════
+var Y_SCALE   = 160; // pixel spread per year (= min-height of paper cell)
+var CARD_H    = 64;  // estimated card height + margin (px)
+
+function renderPapers(papers, side) {
+    if (papers.length === 0) return '';
+
+    // Sort by month descending (Dec first = top of section)
+    var sorted = papers.slice().sort(function(a, b) {
+        return (b.month || 6) - (a.month || 6);
+    });
+
+    var html = '';
+    var runningY = 0;
+
+    sorted.forEach(function(p) {
+        // Target Y offset from top of year section
+        var m       = p.month || 6;
+        var targetY = Math.round((12 - m) / 11 * Y_SCALE);
+
+        // Insert spacer if there is a gap to fill
+        var spacer = Math.max(0, targetY - runningY);
+        if (spacer > 2) {
+            html += '<div style="height:' + spacer + 'px;flex-shrink:0"></div>';
+            runningY += spacer;
+        }
+
+        var prox = p.isNear ? 'near' : 'far';
+        html += '<div class="paper-row ' + side + '-' + prox + ' ' + p.cardType + '">'
+              + paperCard(p)
+              + '<div class="pline"></div>'
+              + '</div>';
+
+        runningY += CARD_H;
+    });
+
+    return html;
 }
 
 // ═══════════════════════════════════
@@ -452,35 +456,16 @@ function buildTimeline(rows) {
     // Descending: newest first
     var years = Object.keys(yearSet).map(Number).sort(function(a,b){ return b - a; });
 
-    function renderPapers(papers, side) {
-        var near = papers.filter(function(p) { return p.isNear; });
-        var far  = papers.filter(function(p) { return !p.isNear; });
-        var html = '';
-        near.forEach(function(p) {
-            html += '<div class="paper-row ' + side + '-near ' + p.cardType + '">'
-                  + paperCard(p)
-                  + '<div class="pline"></div>'
-                  + '</div>';
-        });
-        far.forEach(function(p) {
-            html += '<div class="paper-row ' + side + '-far ' + p.cardType + '">'
-                  + paperCard(p)
-                  + '<div class="pline"></div>'
-                  + '</div>';
-        });
-        return html;
-    }
-
-    // Column headers (first row) — colour legend sits under the "Sequencing-based" label
-    var html = '<div class="col-header img-header">Imaging-based</div>'
-             + '<div class="col-header-spacer"></div>'
-             + '<div style="align-self:start">'
-             +   '<div class="col-header seq-header">Sequencing-based</div>'
-             +   '<div class="col-legend">'
+    // Column headers: legend sits under "Imaging-based", horizontal
+    var html = '<div style="align-self:start;text-align:right;padding-right:6px">'
+             +   '<div class="col-header">Imaging-based</div>'
+             +   '<div class="col-legend-horiz">'
              +     '<div class="col-legend-item"><span class="col-legend-swatch amp"></span>Amplification</div>'
              +     '<div class="col-legend-item"><span class="col-legend-swatch hybr"></span>Hybridisation</div>'
              +   '</div>'
-             + '</div>';
+             + '</div>'
+             + '<div class="col-header-spacer"></div>'
+             + '<div class="col-header seq-header">Sequencing-based</div>';
 
     years.forEach(function(year, idx) {
         var isFirst = idx === 0;
@@ -514,15 +499,13 @@ function buildBubbleChart(rows) {
     rows.forEach(function(r) {
         if (!r.organism) return;
         var raw = r.organism.toLowerCase();
-        var key;
-        if (/animal/i.test(raw))        key = 'Animals';
-        else if (/plant/i.test(raw))    key = 'Plants';
-        else if (/microb/i.test(raw))   key = 'Microbes';
-        else                            key = null;
+        var key = /animal/i.test(raw)  ? 'Animals'
+                : /plant/i.test(raw)   ? 'Plants'
+                : /microb/i.test(raw)  ? 'Microbes'
+                : null;
         if (key) counts[key] = (counts[key] || 0) + 1;
     });
 
-    // Always show all 3 categories (even if 0)
     var items = [
         { label: 'Animals',  count: counts['Animals']  || 0, fill: '#fff0e6', stroke: '#e07840' },
         { label: 'Plants',   count: counts['Plants']   || 0, fill: '#edf7ed', stroke: '#52a852' },
@@ -530,40 +513,30 @@ function buildBubbleChart(rows) {
     ];
 
     var maxCount = Math.max.apply(null, items.map(function(d) { return d.count; })) || 1;
-    var maxR = 82;
-    var minR = 20;
+    var maxR = 82, minR = 18;
 
     items.forEach(function(d) {
-        d.r = d.count > 0
-            ? Math.max(minR, Math.round(maxR * Math.sqrt(d.count / maxCount)))
-            : minR;
+        d.r = d.count > 0 ? Math.max(minR, Math.round(maxR * Math.sqrt(d.count / maxCount))) : minR;
     });
 
-    // SVG dimensions
     var W = 700, centerY = 100;
-    var n = items.length;
-    var spacing = W / (n + 1);
-    // Height: enough for tallest circle + label
+    var spacing = W / (items.length + 1);
     var H = centerY + maxR + 50;
 
     var svg = ['<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat,Arial,sans-serif">'];
 
     items.forEach(function(d, i) {
         var cx = Math.round(spacing * (i + 1));
-        var cy = centerY;
-        // Circle
-        svg.push('<circle cx="' + cx + '" cy="' + cy + '" r="' + d.r + '"'
+        svg.push('<circle cx="' + cx + '" cy="' + centerY + '" r="' + d.r + '"'
             + ' fill="' + d.fill + '" stroke="' + d.stroke + '" stroke-width="1.5"/>');
-        // Count inside
         if (d.count > 0) {
-            svg.push('<text x="' + cx + '" y="' + (cy + 4) + '"'
+            svg.push('<text x="' + cx + '" y="' + (centerY + 5) + '"'
                 + ' text-anchor="middle" font-size="13" font-weight="600" fill="' + d.stroke + '">'
                 + d.count + '</text>');
         }
-        // Label below
-        svg.push('<text x="' + cx + '" y="' + (cy + d.r + 20) + '"'
-            + ' text-anchor="middle" font-size="10" font-weight="600" letter-spacing="1.5" fill="#555">'
-            + d.label.toUpperCase() + '</text>');
+        svg.push('<text x="' + cx + '" y="' + (centerY + d.r + 20) + '"'
+            + ' text-anchor="middle" font-size="11" font-weight="500" letter-spacing="0.5" fill="#555">'
+            + d.label + '</text>');
     });
 
     svg.push('</svg>');
@@ -586,35 +559,34 @@ fetch(GVIZ_URL)
         var cols = data.table.cols.map(function(c) { return c.label; });
 
         // Robust case-insensitive column lookups
-        var iDate   = findCol(cols, 'date published', 'date', 'year');
-        var iLink   = findCol(cols, 'link', 'doi', 'url');
-        var iAuthor = findCol(cols, 'first author', 'author');
-        var iMethod = findCol(cols, 'method', 'method name', 'technique');
+        var iDate   = findCol(cols, 'date published', 'date', 'year', 'published');
+        var iLink   = findCol(cols, 'link', 'doi', 'url', 'paper link');
+        var iMethod = findCol(cols, 'method', 'method name', 'technique', 'name');
         var iMType  = findCol(cols, 'method type', 'type', 'category');
-        var iIType  = findCol(cols, 'imaging type', 'imaging subtype', 'subtype');
-        var iTag    = findCol(cols, 'tag', 'tags', 'label', 'status');
-        var iOrg    = findCol(cols, 'organism type', 'organism', 'species', 'sample type');
+        var iIType  = findCol(cols, 'imaging type', 'imaging subtype', 'subtype', 'imaging');
+        var iTag    = findCol(cols, 'tag', 'tags', 'label', 'status', 'highlight');
+        var iOrg    = findCol(cols, 'organism type', 'organism', 'species', 'sample type', 'sample');
 
         var rows = (data.table.rows || [])
             .filter(function(r) { return r && r.c; })
             .map(function(r) {
+                var dateInfo = parseDate(getCell(r, iDate));
                 var mt  = cellStr(getCell(r, iMType)).toLowerCase();
                 var it  = cellStr(getCell(r, iIType)).toLowerCase();
                 var tag = cellStr(getCell(r, iTag));
 
                 var cardType;
                 if (mt === 'imaging') {
-                    if (it.indexOf('amplification') !== -1)  cardType = 'amplification';
-                    else if (it.indexOf('hybridisation') !== -1 || it.indexOf('hybridization') !== -1) cardType = 'hybridisation';
-                    else cardType = 'amplification';
+                    cardType = (it.indexOf('hybridis') !== -1 || it.indexOf('hybridiz') !== -1)
+                             ? 'hybridisation' : 'amplification';
                 } else {
                     cardType = 'sequencing';
                 }
 
                 return {
-                    year:       parseYear(getCell(r, iDate)),
+                    year:       dateInfo.year,
+                    month:      dateInfo.month,
                     doi:        cellStr(getCell(r, iLink)),
-                    author:     cellStr(getCell(r, iAuthor)),
                     method:     cellStr(getCell(r, iMethod)),
                     methodType: mt,
                     cardType:   cardType,
