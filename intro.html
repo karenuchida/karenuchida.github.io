@@ -3,33 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karen Uchida — Intro</title>
+    <title>Karen Uchida — My Journey</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html { scroll-behavior: smooth; }
+
         body {
             background: #000;
             font-family: 'Montserrat', Arial, sans-serif;
+            color: #fff;
             overflow-x: hidden;
         }
 
-        /* ── NAV ── */
+        /* ── NAV ────────────────────────────────── */
         #navbar {
             position: fixed;
             top: 0; left: 0; right: 0;
-            z-index: 50;
+            z-index: 200;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 40px;
-            background: transparent;
-            transition: background 0.3s;
+            padding: 18px 44px;
+            transition: background 0.35s;
         }
         #navbar.scrolled {
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(12px);
+            background: rgba(0,0,6,0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
         .nav-logo {
             color: #ff6600;
@@ -38,132 +41,104 @@
             letter-spacing: 0.1em;
             text-decoration: none;
         }
-        .nav-links {
-            display: flex;
-            gap: 28px;
-        }
+        .nav-links { display: flex; gap: 28px; }
         .nav-links a {
-            color: rgba(255,255,255,0.5);
-            font-size: 12px;
-            letter-spacing: 0.12em;
+            color: rgba(255,255,255,0.42);
+            font-size: 11px;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
             text-decoration: none;
             transition: color 0.2s;
         }
         .nav-links a:hover { color: #ff6600; }
 
-        /* ── TITLE CARD (above the globe) ── */
-        #title-card {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 110px 24px 32px;
-            background: #000;
+        /* ── HERO ───────────────────────────────── */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at 50% 60%, #0a0f1e 0%, #000 70%);
         }
-        #title-card h1 {
-            font-size: clamp(1.6rem, 4vw, 2.6rem);
+        #hero h1 {
+            color: #ff6600;
+            font-size: clamp(2.8rem, 7vw, 5rem);
             font-weight: 300;
-            color: #fff;
-            letter-spacing: 0.18em;
-            margin-bottom: 12px;
+            letter-spacing: 0.3em;
+            text-align: center;
+            line-height: 1.15;
         }
-        #title-card h1 span { color: #ff6600; }
-        #title-card p {
-            color: rgba(255,255,255,0.38);
-            font-size: 11px;
-            letter-spacing: 0.22em;
+        #hero .tagline {
+            margin-top: 20px;
+            color: rgba(255,255,255,0.2);
+            font-size: 10px;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
         }
-
-        /* ── SCROLL WRAPPER ── */
-        /* This tall wrapper is what the user actually scrolls through.
-           The canvas inside is sticky so it stays pinned to the viewport. */
-        #globe-wrapper {
-            height: 800vh;
-            position: relative;
+        /* small down-arrow hint */
+        #hero .arrow {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(to bottom, transparent, rgba(255,102,0,0.5));
+            animation: arrowFade 2s ease-in-out infinite;
+        }
+        @keyframes arrowFade {
+            0%, 100% { opacity: 0.2; transform: translateX(-50%) scaleY(0.8); }
+            50%       { opacity: 0.9; transform: translateX(-50%) scaleY(1); }
         }
 
+        /* ── GLOBE SCROLL AREA ──────────────────── */
+        /* Tall wrapper → sticky canvas inside */
+        #globe-wrapper {
+            height: 900vh;
+            position: relative;
+        }
         #globe-canvas {
             position: sticky;
             top: 0;
+            display: block;
             width: 100%;
             height: 100vh;
-            display: block;
         }
 
-        /* ── LOCATION LABEL (fixed, centred at bottom) ── */
-        #location-label {
-            position: fixed;
-            bottom: 52px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #fff;
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            background: rgba(0,0,0,0.55);
-            border: 1px solid rgba(255,102,0,0.55);
-            padding: 8px 24px;
-            border-radius: 99px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: opacity 0.4s;
-            white-space: nowrap;
-            pointer-events: none;
-            z-index: 20;
-        }
-
-        /* ── SCROLL HINT ── */
-        #scroll-hint {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.3);
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            transition: opacity 0.8s;
-            pointer-events: none;
-            z-index: 20;
-        }
-
-        /* ── PROGRESS BAR ── */
+        /* ── PROGRESS BAR ───────────────────────── */
         #progress-bar {
             position: fixed;
             top: 0; left: 0;
             height: 2px;
-            background: #ff6600;
             width: 0%;
-            z-index: 60;
-            transition: width 0.08s linear;
+            background: #ff6600;
+            z-index: 300;
+            pointer-events: none;
         }
 
-        /* ── END CARD (appears after scrolling through the full journey) ── */
-        #end-card {
-            position: relative;
+        /* ── END SECTION ────────────────────────── */
+        #end-section {
             background: #000;
             text-align: center;
-            padding: 80px 24px 100px;
-            z-index: 2;
+            padding: 90px 24px 110px;
         }
-        #end-card p {
-            color: rgba(255,255,255,0.35);
-            font-size: 11px;
-            letter-spacing: 0.2em;
+        #end-section p {
+            color: rgba(255,255,255,0.28);
+            font-size: 10px;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
         }
         .end-btn {
             display: inline-block;
-            padding: 10px 28px;
+            padding: 10px 30px;
             border: 1.5px solid #ff6600;
             border-radius: 99px;
             color: #ff6600;
             font-size: 12px;
             font-weight: 500;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             text-decoration: none;
             transition: background 0.2s, color 0.2s;
@@ -182,41 +157,39 @@
         </div>
     </nav>
 
-    <!-- title above the globe -->
-    <div id="title-card">
-        <h1>KAREN <span>UCHIDA</span></h1>
-        <p>Scroll to travel through my journey</p>
-    </div>
+    <!-- hero -->
+    <section id="hero">
+        <h1>KAREN UCHIDA</h1>
+        <p class="tagline">A journey across three countries</p>
+        <div class="arrow"></div>
+    </section>
 
-    <!-- globe (sticky canvas inside a tall scroll wrapper) -->
+    <!-- globe (scroll-driven) -->
     <div id="globe-wrapper">
         <canvas id="globe-canvas"></canvas>
     </div>
 
-    <!-- end section -->
-    <div id="end-card">
+    <!-- end -->
+    <div id="end-section">
         <p>Now based in Norwich, UK</p>
-        <a href="index.html#cv" class="end-btn">View CV</a>
+        <a href="index.html#cv" class="end-btn">View CV →</a>
     </div>
 
-    <!-- UI overlays (outside the wrapper so they stay fixed) -->
-    <div id="location-label">Yokohama, Japan</div>
-    <div id="scroll-hint">↓ &nbsp; scroll to explore</div>
+    <!-- progress bar -->
     <div id="progress-bar"></div>
 
-    <!-- Three.js -->
+    <!-- Three.js (loaded after DOM) -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.min.js"></script>
     <script>
-    // ═══════════════════════════════════════════════════════
-    //  HELPERS
-    // ═══════════════════════════════════════════════════════
-
-    // Convert lat/lng to a 3D point on a sphere of radius r.
-    // Uses the same formula as Three.js SphereGeometry UV mapping:
-    //   phi   = (lng + 180) / 360 * 2π   (azimuthal, around Y axis)
-    //   theta = (90 - lat) / 180 * π     (polar, from top)
+    // ═══════════════════════════════════════════════════════════════
+    //  COORDINATE HELPER
+    //  Converts lat/lng to 3D point using Three.js SphereGeometry's
+    //  UV mapping so that markers sit at the correct positions.
+    //    phi   = (lng+180)/360 × 2π   (azimuthal, around Y)
+    //    theta = (90-lat)/180  × π    (polar, from top)
+    // ═══════════════════════════════════════════════════════════════
     function ll3d(lat, lng, r) {
-        var phi   = ((lng + 180) / 360) * 2 * Math.PI;
+        var phi   = ((lng + 180) / 360) * Math.PI * 2;
         var theta = ((90  - lat) / 180) * Math.PI;
         return new THREE.Vector3(
             -r * Math.cos(phi) * Math.sin(theta),
@@ -225,207 +198,258 @@
         );
     }
 
-    // Quaternion that rotates the earth so (lat, lng) faces the camera (+Z).
+    // Returns a quaternion that rotates the globe so (lat,lng) faces the
+    // camera which sits on the +Z axis.
     function faceQ(lat, lng) {
-        var pt = ll3d(lat, lng, 1).normalize();
-        return new THREE.Quaternion().setFromUnitVectors(pt, new THREE.Vector3(0, 0, 1));
+        return new THREE.Quaternion().setFromUnitVectors(
+            ll3d(lat, lng, 1).normalize(),
+            new THREE.Vector3(0, 0, 1)
+        );
     }
 
-    // Smooth ease-in-out curve.
+    // Ease-in-out curve for smooth segment transitions.
     function eio(t) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
 
-    // ═══════════════════════════════════════════════════════
-    //  SCENE
-    // ═══════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
+    //  RENDERER & SCENE
+    // ═══════════════════════════════════════════════════════════════
     var canvas   = document.getElementById('globe-canvas');
+    var W = window.innerWidth, H = window.innerHeight;
+
     var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x00060f);
+    renderer.setSize(W, H);
+    renderer.setClearColor(0x00030c);   // deep space blue-black
 
     var scene  = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 200);
-    camera.position.set(0, 0, 2.8);
+    var camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 300);
+    camera.position.set(0, 0, 2.9);
     camera.lookAt(0, 0, 0);
 
-    // ── Stars ──
-    var sp = new Float32Array(8000 * 3);
-    for (var i = 0; i < sp.length; i++) sp[i] = (Math.random() - 0.5) * 300;
-    var starGeo = new THREE.BufferGeometry();
-    starGeo.setAttribute('position', new THREE.BufferAttribute(sp, 3));
-    var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.18 }));
-    scene.add(stars);
+    // ─── STARS ───────────────────────────────────────────────────
+    (function addStars() {
+        var positions = new Float32Array(9000 * 3);
+        var sizes     = new Float32Array(9000);
+        for (var i = 0; i < 9000; i++) {
+            positions[i*3]   = (Math.random() - 0.5) * 400;
+            positions[i*3+1] = (Math.random() - 0.5) * 400;
+            positions[i*3+2] = (Math.random() - 0.5) * 400;
+            sizes[i] = Math.random() * 0.6 + 0.1;
+        }
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geo.setAttribute('size',     new THREE.BufferAttribute(sizes, 1));
+        scene.add(new THREE.Points(geo, new THREE.PointsMaterial({
+            color: 0xffffff, size: 0.22, sizeAttenuation: true, transparent: true, opacity: 0.85
+        })));
+    })();
 
-    // ── Earth ──
-    var earthMat = new THREE.MeshPhongMaterial({
-        color:    0x1a6699,   // fallback blue if texture fails
-        shininess: 15,
-        specular:  new THREE.Color(0x223344)
-    });
-    var earth = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), earthMat);
+    // ─── EARTH SPHERE ────────────────────────────────────────────
+    // Fully procedural — no external texture needed.
+    // The MeshPhongMaterial with a strong directional light creates
+    // a beautiful illuminated-vs-dark-side effect.
+    var earth = new THREE.Mesh(
+        new THREE.SphereGeometry(1, 72, 72),
+        new THREE.MeshPhongMaterial({
+            color:     0x0d2244,    // dark navy blue
+            emissive:  0x020d1f,   // subtle self-glow on the dark side
+            shininess: 55,
+            specular:  new THREE.Color(0x224488)
+        })
+    );
     scene.add(earth);
 
-    // Load texture — try jsdelivr, fall back to a plain colour
-    new THREE.TextureLoader().load(
-        'https://cdn.jsdelivr.net/npm/three-globe@2.31.3/example/img/earth-blue-marble.jpg',
-        function (tex) {
-            earthMat.map   = tex;
-            earthMat.color = new THREE.Color(0xffffff); // let the texture drive the colour
-            earthMat.needsUpdate = true;
-        },
-        undefined,
-        function () {
-            // texture failed — the fallback blue colour is already set, do nothing
-        }
-    );
+    // ─── GRID LINES ──────────────────────────────────────────────
+    // Latitude and longitude lines, added as children of earth
+    // so they rotate with it.
+    var gridMat = new THREE.LineBasicMaterial({
+        color: 0x2255aa, transparent: true, opacity: 0.18
+    });
 
-    // ── Atmosphere glow ──
+    // Latitude circles at -60, -30, 0, 30, 60
+    [-60, -30, 0, 30, 60].forEach(function (lat) {
+        var theta = (90 - lat) / 180 * Math.PI;
+        var y = Math.cos(theta);
+        var r = Math.sin(theta);
+        var pts = [];
+        for (var i = 0; i <= 80; i++) {
+            var phi = i / 80 * Math.PI * 2;
+            pts.push(new THREE.Vector3(
+                -Math.cos(phi) * r, y, Math.sin(phi) * r
+            ));
+        }
+        earth.add(new THREE.LineLoop(
+            new THREE.BufferGeometry().setFromPoints(pts), gridMat
+        ));
+    });
+
+    // Longitude lines every 30°
+    for (var lng = 0; lng < 360; lng += 30) {
+        var phi = (lng + 180) / 360 * Math.PI * 2;
+        var pts = [];
+        for (var j = 0; j <= 40; j++) {
+            var t = j / 40 * Math.PI;
+            pts.push(new THREE.Vector3(
+                -Math.cos(phi) * Math.sin(t),
+                 Math.cos(t),
+                 Math.sin(phi) * Math.sin(t)
+            ));
+        }
+        earth.add(new THREE.Line(
+            new THREE.BufferGeometry().setFromPoints(pts), gridMat
+        ));
+    }
+
+    // ─── ATMOSPHERE GLOW ─────────────────────────────────────────
+    // Larger sphere rendered from the inside (BackSide) to create
+    // a soft blue halo around the globe.
     scene.add(new THREE.Mesh(
-        new THREE.SphereGeometry(1.07, 64, 64),
-        new THREE.MeshBasicMaterial({ color: 0x2255cc, transparent: true, opacity: 0.10, side: THREE.BackSide })
+        new THREE.SphereGeometry(1.18, 48, 48),
+        new THREE.MeshBasicMaterial({
+            color: 0x2266ff, transparent: true, opacity: 0.08,
+            side: THREE.BackSide
+        })
+    ));
+    // Inner rim glow
+    scene.add(new THREE.Mesh(
+        new THREE.SphereGeometry(1.04, 48, 48),
+        new THREE.MeshBasicMaterial({
+            color: 0x3388ff, transparent: true, opacity: 0.06,
+            side: THREE.BackSide
+        })
     ));
 
-    // ── Lighting ──
-    scene.add(new THREE.AmbientLight(0xffffff, 0.38));
-    var sun = new THREE.DirectionalLight(0xfff8ee, 1.25);
-    sun.position.set(5, 3, 5);
-    scene.add(sun);
+    // ─── LIGHTING ────────────────────────────────────────────────
+    scene.add(new THREE.AmbientLight(0x334466, 1.0));   // cool ambient
+    var sunLight = new THREE.DirectionalLight(0xfff0dd, 2.2);
+    sunLight.position.set(4, 2, 5);
+    scene.add(sunLight);
+    // Soft fill from the opposite side
+    var fillLight = new THREE.DirectionalLight(0x2244aa, 0.4);
+    fillLight.position.set(-3, -1, -4);
+    scene.add(fillLight);
 
-    // ── Location markers (added as children of earth → rotate with it) ──
-    var PLACES = [
-        [35.44, 139.64],   // Yokohama
-        [28.46,  77.03],   // Gurgaon
-        [51.51,  -0.13],   // London
-        [52.21,   0.12],   // Cambridge
-        [52.63,   1.30],   // Norwich
+    // ─── LOCATION MARKERS ────────────────────────────────────────
+    // Added as children of earth → they rotate with the globe.
+    var halos = [];   // we'll pulse these in the render loop
+
+    var markerData = [
+        { lat: 35.44, lng: 139.64, label: 'Yokohama' },
+        { lat: 28.46, lng:  77.03, label: 'Gurgaon'  },
+        { lat: 51.51, lng:  -0.13, label: 'London'   },
+        { lat: 52.21, lng:   0.12, label: 'Cambridge' },
+        { lat: 52.63, lng:   1.30, label: 'Norwich'  },
     ];
-    PLACES.forEach(function (c) {
-        var pos = ll3d(c[0], c[1], 1.012);
 
+    markerData.forEach(function (m, idx) {
+        var pos = ll3d(m.lat, m.lng, 1.013);
+
+        // solid dot
         var dot = new THREE.Mesh(
-            new THREE.SphereGeometry(0.014, 16, 16),
+            new THREE.SphereGeometry(0.016, 16, 16),
             new THREE.MeshBasicMaterial({ color: 0xff6600 })
         );
         dot.position.copy(pos);
         earth.add(dot);
 
+        // pulsing halo (scaled in render loop)
         var halo = new THREE.Mesh(
-            new THREE.SphereGeometry(0.026, 16, 16),
-            new THREE.MeshBasicMaterial({ color: 0xff6600, transparent: true, opacity: 0.20 })
+            new THREE.SphereGeometry(0.032, 16, 16),
+            new THREE.MeshBasicMaterial({
+                color: 0xff6600, transparent: true, opacity: 0.25
+            })
         );
         halo.position.copy(pos);
         earth.add(halo);
+        halos.push({ mesh: halo, offset: idx * 0.9 });
     });
 
-    // ═══════════════════════════════════════════════════════
-    //  WAYPOINTS
-    //  [label, lat, lng, cameraZ]
-    //  Repeating same lat/lng with different cameraZ = zoom in / zoom out.
-    // ═══════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
+    //  WAYPOINTS  [label, lat, lng, cameraZ]
+    //  Same lat/lng with different cameraZ = zoom in / zoom out.
+    // ═══════════════════════════════════════════════════════════════
     var WP = [
-        ["Yokohama, Japan",  35.44, 139.64, 2.6],  // 0  zoom in
-        ["Yokohama, Japan",  35.44, 139.64, 3.8],  // 1  zoom out
-        ["Gurgaon, India",   28.46,  77.03, 2.6],  // 2  fly + zoom in
-        ["Gurgaon, India",   28.46,  77.03, 3.8],  // 3  zoom out
-        ["Yokohama, Japan",  35.44, 139.64, 2.6],  // 4  fly back + zoom in
-        ["Yokohama, Japan",  35.44, 139.64, 3.8],  // 5  zoom out
-        ["London, UK",       51.51,  -0.13, 2.6],  // 6  fly + zoom in
-        ["Cambridge, UK",    52.21,   0.12, 2.9],  // 7  fly
-        ["Norwich, UK",      52.63,   1.30, 2.9],  // 8  fly
-        ["Norwich, UK",      52.63,   1.30, 2.9],  // 9  hold at end
+        ["Yokohama, Japan", 35.44, 139.64, 2.5],  // 0  start / zoom in
+        ["Yokohama, Japan", 35.44, 139.64, 3.8],  // 1  zoom out
+        ["Gurgaon, India",  28.46,  77.03, 2.5],  // 2  fly + zoom in
+        ["Gurgaon, India",  28.46,  77.03, 3.8],  // 3  zoom out
+        ["Yokohama, Japan", 35.44, 139.64, 2.5],  // 4  fly back + zoom in
+        ["Yokohama, Japan", 35.44, 139.64, 3.8],  // 5  zoom out
+        ["London, UK",      51.51,  -0.13, 2.5],  // 6  fly + zoom in
+        ["Cambridge, UK",   52.21,   0.12, 2.8],  // 7  fly
+        ["Norwich, UK",     52.63,   1.30, 2.8],  // 8  fly
+        ["Norwich, UK",     52.63,   1.30, 2.8],  // 9  hold
     ];
-
-    // Pre-compute target quaternions
     var QUATS = WP.map(function (w) { return faceQ(w[1], w[2]); });
 
-    // Set initial earth orientation immediately so it's not black on load
+    // Orient globe to first waypoint immediately (no black frame on load)
     earth.quaternion.copy(QUATS[0]);
+    camera.position.z = WP[0][3];
 
-    // ═══════════════════════════════════════════════════════
-    //  SCROLL → ANIMATION PROGRESS
-    // ═══════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
+    //  SCROLL PROGRESS
+    // ═══════════════════════════════════════════════════════════════
     function getProgress() {
         var wrapper   = document.getElementById('globe-wrapper');
         var maxScroll = wrapper.offsetHeight - window.innerHeight;
+        if (maxScroll <= 0) return 0;
         return Math.max(0, Math.min(1, window.scrollY / maxScroll));
     }
 
-    // ═══════════════════════════════════════════════════════
-    //  LABEL
-    // ═══════════════════════════════════════════════════════
-    var labelEl   = document.getElementById('location-label');
-    var curLabel  = '';
-    var fadeLock  = false;
-
-    function setLabel(name) {
-        if (name === curLabel || fadeLock) return;
-        fadeLock = true;
-        labelEl.style.opacity = '0';
-        setTimeout(function () {
-            labelEl.textContent = name;
-            curLabel = name;
-            labelEl.style.opacity = '1';
-            fadeLock = false;
-        }, 320);
-    }
-
-    // ═══════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
     //  RENDER LOOP
-    // ═══════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
     function animate() {
         requestAnimationFrame(animate);
 
-        var progress  = getProgress();
-        var numSegs   = WP.length - 1;
-        var raw       = progress * numSegs;
-        var idx       = Math.min(Math.floor(raw), numSegs - 1);
-        var t         = eio(raw - idx);
+        var progress = getProgress();
+        var numSegs  = WP.length - 1;
+        var raw      = progress * numSegs;
+        var idx      = Math.min(Math.floor(raw), numSegs - 1);
+        var t        = eio(raw - idx);
 
-        // Rotate earth so the current location faces the camera
+        // Rotate globe toward current waypoint
         var q = new THREE.Quaternion();
         q.slerpQuaternions(QUATS[idx], QUATS[idx + 1], t);
         earth.quaternion.copy(q);
 
-        // Zoom camera in/out along Z
+        // Zoom camera in / out
         camera.position.z = WP[idx][3] + (WP[idx + 1][3] - WP[idx][3]) * t;
         camera.lookAt(0, 0, 0);
 
-        // Update label
-        setLabel(t < 0.5 ? WP[idx][0] : WP[idx + 1][0]);
+        // Pulse the halo markers
+        var now = performance.now() * 0.001;
+        halos.forEach(function (h) {
+            var s = 1 + 0.45 * Math.abs(Math.sin(now * 1.4 + h.offset));
+            h.mesh.scale.setScalar(s);
+        });
+
+        // Gentle star drift
+        scene.children[0].rotation.y += 0.00004;
 
         // Progress bar
         document.getElementById('progress-bar').style.width = (progress * 100) + '%';
-
-        // Gentle star drift
-        stars.rotation.y += 0.00005;
 
         renderer.render(scene, camera);
     }
 
     animate();
 
-    // ═══════════════════════════════════════════════════════
-    //  SCROLL HINT FADE
-    // ═══════════════════════════════════════════════════════
-    window.addEventListener('scroll', function onFirstScroll() {
-        if (window.scrollY > 60) {
-            document.getElementById('scroll-hint').style.opacity = '0';
-            window.removeEventListener('scroll', onFirstScroll);
-        }
-    });
-
-    // Navbar tint on scroll
+    // ═══════════════════════════════════════════════════════════════
+    //  NAVBAR SCROLL TINT
+    // ═══════════════════════════════════════════════════════════════
     window.addEventListener('scroll', function () {
-        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
     });
 
-    // ═══════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
     //  RESIZE
-    // ═══════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
     window.addEventListener('resize', function () {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        W = window.innerWidth; H = window.innerHeight;
+        camera.aspect = W / H;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(W, H);
     });
     </script>
 
