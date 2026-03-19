@@ -41,10 +41,7 @@
         .nav-links a:hover, .nav-links a.active { opacity: 1; color: #ff6600; }
 
         /* ── PAGE HEADER ── */
-        #page-header {
-            text-align: center;
-            padding: 60px 24px 36px;
-        }
+        #page-header { text-align: center; padding: 60px 24px 36px; }
         #page-header h1 {
             font-size: clamp(1.4rem, 3.5vw, 2rem);
             font-weight: 300; color: #111;
@@ -52,10 +49,7 @@
         }
 
         /* ── STATUS ── */
-        #status {
-            text-align: center; padding: 60px 24px;
-            color: #aaa; font-size: 12px; letter-spacing: 0.08em;
-        }
+        #status { text-align: center; padding: 60px 24px; color: #aaa; font-size: 12px; letter-spacing: 0.08em; }
         #status.error { color: #c0392b; }
         .spinner {
             display: inline-block; width: 18px; height: 18px;
@@ -69,21 +63,51 @@
            TIMELINE SECTION
            ══════════════════════════════════════════ */
         #timeline-wrap {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px 80px;
             display: none;
         }
 
-        /* Section headings — bigger, mixed case */
         .section-heading {
-            font-size: 24px;
-            font-weight: 500;
-            letter-spacing: 0.04em;
-            color: #222;
-            text-align: center;
-            padding: 0 0 28px;
+            font-size: 24px; font-weight: 500;
+            letter-spacing: 0.04em; color: #222;
+            text-align: center; padding: 0 0 20px;
         }
+
+        /* ── Filter bar ── */
+        #filter-wrap { padding: 0 0 32px; }
+        .filter-group-label {
+            font-size: 10px; letter-spacing: 0.12em;
+            text-transform: uppercase; color: #bbb;
+            text-align: center; padding: 0 0 7px;
+        }
+        .filter-group {
+            display: flex; justify-content: center;
+            gap: 10px; flex-wrap: wrap; padding-bottom: 14px;
+        }
+        .filter-btn {
+            padding: 6px 18px; border-radius: 99px; border: 1.5px solid;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+            cursor: pointer; background: transparent;
+            transition: background 0.2s, color 0.2s;
+        }
+        .filter-btn[data-filter="amplification"] { border-color: #d4b800; color: #a08000; }
+        .filter-btn[data-filter="amplification"]:hover,
+        .filter-btn[data-filter="amplification"].active { background: #d4b800; color: #fff; }
+        .filter-btn[data-filter="hybridisation"]  { border-color: #9b7fd4; color: #7a5bc4; }
+        .filter-btn[data-filter="hybridisation"]:hover,
+        .filter-btn[data-filter="hybridisation"].active  { background: #9b7fd4; color: #fff; }
+        .filter-btn[data-filter="animals"]  { border-color: #e07840; color: #c05820; }
+        .filter-btn[data-filter="animals"]:hover,
+        .filter-btn[data-filter="animals"].active  { background: #e07840; color: #fff; }
+        .filter-btn[data-filter="plants"]   { border-color: #52a852; color: #357a35; }
+        .filter-btn[data-filter="plants"]:hover,
+        .filter-btn[data-filter="plants"].active   { background: #52a852; color: #fff; }
+        .filter-btn[data-filter="microbes"] { border-color: #8264c8; color: #6248a8; }
+        .filter-btn[data-filter="microbes"]:hover,
+        .filter-btn[data-filter="microbes"].active { background: #8264c8; color: #fff; }
 
         /* 3-column grid: [imaging] [year-axis] [sequencing] */
         #timeline-grid {
@@ -93,203 +117,139 @@
             align-items: stretch;
         }
 
-        /* ── Column header labels — bigger, mixed case, no border ── */
+        /* ── Column header labels — centred in each half ── */
         .col-header {
-            font-size: 20px;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            color: #333;
-            padding: 0 0 6px;
+            font-size: 20px; font-weight: 500;
+            letter-spacing: 0.02em; color: #333;
+            text-align: center; padding: 0 0 12px;
             align-self: start;
         }
-        .col-header.img-header { text-align: right; padding-right: 6px; }
-        .col-header.seq-header { text-align: left;  padding-left: 6px; }
-
-        /* ── Filter buttons ── */
-        #filter-bar {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            padding: 0 0 28px;
-        }
-        .filter-btn {
-            padding: 7px 22px;
-            border-radius: 99px;
-            border: 1.5px solid;
-            font-family: 'Montserrat', Arial, sans-serif;
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            cursor: pointer;
-            transition: opacity 0.2s, background 0.2s, color 0.2s;
-            background: transparent;
-        }
-        .filter-btn[data-filter="amplification"] {
-            border-color: #d4b800;
-            color: #a08000;
-        }
-        .filter-btn[data-filter="amplification"]:hover,
-        .filter-btn[data-filter="amplification"].active {
-            background: #d4b800;
-            color: #fff;
-        }
-        .filter-btn[data-filter="hybridisation"] {
-            border-color: #9b7fd4;
-            color: #7a5bc4;
-        }
-        .filter-btn[data-filter="hybridisation"]:hover,
-        .filter-btn[data-filter="hybridisation"].active {
-            background: #9b7fd4;
-            color: #fff;
-        }
-
-        /* Spacer for year-axis header position */
-        .col-header-spacer { align-self: start; padding: 0 0 6px; }
+        .col-header-spacer { align-self: start; padding: 0 0 12px; }
 
         /* ── Year axis cell ── */
         .year-cell {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 12px;
-            min-height: 160px;
+            display: flex; flex-direction: column; align-items: center;
+            padding-top: 12px; min-height: 160px;
         }
-
-        /* Vertical connecting line — slate gray, NO horizontal ticks */
+        /* Central vertical line */
         .year-cell::before {
             content: '';
-            position: absolute;
-            left: 50%; transform: translateX(-50%);
-            top: 0; bottom: 0;
-            width: 2px;
-            background: rgba(74,85,104,0.22);
-            z-index: 0;
+            position: absolute; left: 50%; transform: translateX(-50%);
+            top: 0; bottom: 0; width: 2px;
+            background: rgba(74,85,104,0.22); z-index: 0;
         }
-        .year-cell.first::before { top: 38px; }
-        .year-cell.last::before  { bottom: auto; height: 38px; }
+        .year-cell.first::before { top: 42px; }
+        .year-cell.last::before  { bottom: auto; height: 42px; }
 
-        /* Year circle — slate gray */
+        /* Year circle */
         .year-dot {
             position: relative; z-index: 1;
-            width: 52px; height: 52px;
-            border-radius: 50%;
-            background: #4a5568;
-            color: #fff;
-            font-size: 10px; font-weight: 600;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: #4a5568; color: #fff;
+            font-size: 16px; font-weight: 600;
             display: flex; align-items: center; justify-content: center;
             text-align: center;
             box-shadow: 0 2px 10px rgba(74,85,104,0.25);
             flex-shrink: 0;
         }
 
-        /* ── Paper column cells ── */
+        /* ── Paper column cells — overflow visible so plines cross boundary ── */
         .papers-cell {
-            align-self: start;
-            padding: 8px 0 10px;
-            display: flex;
-            flex-direction: column;
-            min-height: 160px;
+            align-self: start; padding: 8px 0 10px;
+            display: flex; flex-direction: column;
+            min-height: 160px; overflow: visible;
         }
-        .img-col { padding-right: 6px; }
-        .seq-col { padding-left:  6px; }
+        .img-col { padding-right: 0; }
+        .seq-col { padding-left:  0; }
 
         /* ── Paper rows ── */
         .paper-row {
-            display: flex;
-            align-items: center;
-            min-width: 0;
-            margin-bottom: 5px;
-            flex-shrink: 0;
+            display: flex; align-items: center;
+            min-width: 0; margin-bottom: 5px;
+            flex-shrink: 0; overflow: visible;
         }
 
-        /* ─────────────────────────────────────────
-           IMAGING (left column)
-           NEAR (Breakthrough/Original): pushed RIGHT, close to axis.
-           FAR (others): on LEFT, far from axis.
-           ───────────────────────────────────────── */
-        .paper-row.img-near { justify-content: flex-end; padding-left: 30%; }
+        /*
+         * IMAGING (left column)
+         * NEAR (Breakthrough): flush right — pline overflows into year-cell to touch axis.
+         * FAR (regular):  centred — pline is a stub arm toward axis.
+         */
+        .paper-row.img-near { justify-content: flex-end; }
         .paper-row.img-near .pcard { flex-shrink: 0; max-width: 240px; }
-        .paper-row.img-near .pline { width: 14px; flex-shrink: 0; height: 1px; }
+        .paper-row.img-near .pline { width: 50px; flex-shrink: 0; height: 1px; }
 
-        .paper-row.img-far  { justify-content: flex-start; }
-        .paper-row.img-far  .pcard { flex-shrink: 0; max-width: 200px; }
-        .paper-row.img-far  .pline { flex-grow: 1; height: 1px; }
+        .paper-row.img-far  { justify-content: center; }
+        .paper-row.img-far  .pcard { flex-shrink: 0; max-width: 220px; }
+        .paper-row.img-far  .pline { width: 40px; flex-shrink: 0; height: 1px; }
 
-        /* ─────────────────────────────────────────
-           SEQUENCING (right column)
-           NEAR: line then card, left-aligned (close to axis).
-           FAR:  growing line then card, right-aligned.
-           ───────────────────────────────────────── */
-        .paper-row.seq-near { justify-content: flex-start; padding-right: 30%; }
-        .paper-row.seq-near .pline { width: 14px; flex-shrink: 0; height: 1px; order: 1; }
+        /*
+         * SEQUENCING (right column)
+         * NEAR: flush left — pline overflows leftward to touch axis.
+         * FAR:  centred — pline is a stub arm.
+         */
+        .paper-row.seq-near { justify-content: flex-start; }
+        .paper-row.seq-near .pline { width: 50px; flex-shrink: 0; height: 1px; order: 1; }
         .paper-row.seq-near .pcard { flex-shrink: 0; max-width: 240px; order: 2; }
 
-        .paper-row.seq-far  { justify-content: flex-end; }
-        .paper-row.seq-far  .pline { flex-grow: 1; height: 1px; order: 1; }
-        .paper-row.seq-far  .pcard { flex-shrink: 0; max-width: 200px; order: 2; }
+        .paper-row.seq-far  { justify-content: center; }
+        .paper-row.seq-far  .pline { width: 40px; flex-shrink: 0; height: 1px; order: 1; }
+        .paper-row.seq-far  .pcard { flex-shrink: 0; max-width: 220px; order: 2; }
 
-        /* ── Branch line colours — solid ── */
-        .paper-row.img-near.amplification .pline,
-        .paper-row.img-far.amplification  .pline { background: rgba(212,184,0,0.55); }
-        .paper-row.img-near.hybridisation .pline,
-        .paper-row.img-far.hybridisation  .pline { background: rgba(155,127,212,0.55); }
-        .paper-row.seq-near.sequencing    .pline,
-        .paper-row.seq-far.sequencing     .pline { background: rgba(150,150,150,0.4); }
+        /* All branch lines — uniform neutral gray */
+        .pline { background: rgba(150,150,150,0.5); }
 
-        /* ── Paper cards — uniform border ── */
+        /* ── Paper cards ── */
         .pcard {
-            border-radius: 5px;
-            padding: 6px 10px 7px;
+            border-radius: 5px; padding: 7px 10px 8px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-            transition: box-shadow 0.18s;
-            min-width: 0;
+            transition: box-shadow 0.18s, opacity 0.2s;
+            min-width: 0; background: #ffffff; border: 1.5px solid #d8d8d8;
         }
         .pcard:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.10); }
-        .pcard.amplification { background: #ffffff; border: 1.5px solid #c8c8c8; }
-        .pcard.hybridisation { background: #ffffff; border: 1.5px solid #c8c8c8; }
-        .pcard.sequencing    { background: #ffffff; border: 1.5px solid #c8c8c8; }
 
-        .paper-method   { font-weight: 600; font-size: 11.5px; color: #111; margin-bottom: 2px; line-height: 1.3; }
-        .paper-organism { font-size: 11px; color: #888; margin-bottom: 3px; font-style: italic; }
+        .paper-method { font-weight: 600; font-size: 11.5px; color: #111; margin-bottom: 3px; line-height: 1.3; }
         .paper-doi {
-            display: block; font-size: 11px;
+            display: block; font-size: 11px; color: #888;
             text-decoration: none; word-break: break-all;
-            opacity: 0.75; transition: opacity 0.2s;
+            opacity: 0.75; transition: opacity 0.2s; margin-bottom: 5px;
         }
-        .pcard.amplification .paper-doi { color: #666; }
-        .pcard.hybridisation .paper-doi { color: #666; }
-        .pcard.sequencing    .paper-doi { color: #666; }
-        /* dim class for filter */
-        .paper-row.dimmed { opacity: 0.12; pointer-events: none; }
         .paper-doi:hover { opacity: 1; text-decoration: underline; }
+
+        /* ── Chips ── */
+        .chip-row { display: flex; flex-wrap: wrap; gap: 4px; }
+        .chip {
+            display: inline-block; padding: 2px 8px; border-radius: 99px;
+            font-size: 9.5px; font-weight: 500; letter-spacing: 0.04em;
+            border: 1px solid; white-space: nowrap;
+        }
+        .chip-amplification { background: #fffce8; border-color: #d4b800; color: #a08000; }
+        .chip-hybridisation  { background: #f8f3ff; border-color: #9b7fd4; color: #7a5bc4; }
+        .chip-sequencing     { background: #f5f5f5; border-color: #c8c8c8; color: #888; }
+        .chip-animals  { background: #fff5f0; border-color: #e07840; color: #c05820; }
+        .chip-plants   { background: #f0faf0; border-color: #52a852; color: #357a35; }
+        .chip-microbes { background: #f3f0ff; border-color: #8264c8; color: #6248a8; }
+
+        /* Dim class for filtering */
+        .paper-row.dimmed { opacity: 0.1; pointer-events: none; }
 
         /* ══════════════════════════════════════════
            BUBBLE CHART SECTION
            ══════════════════════════════════════════ */
         #bubble-section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px 24px 100px;
-            text-align: center;
-            display: none;
+            max-width: 800px; margin: 0 auto;
+            padding: 20px 24px 100px; text-align: center; display: none;
         }
-        #bubble-chart svg {
-            width: 100%; max-width: 700px;
-            display: block; margin: 0 auto;
-            overflow: visible;
-        }
+        #bubble-chart svg { width: 100%; max-width: 700px; display: block; margin: 0 auto; overflow: visible; }
 
         /* ── Responsive ── */
         @media (max-width: 720px) {
             #navbar { padding: 14px 18px; }
             #timeline-wrap { padding: 0 12px 60px; }
             #timeline-grid { grid-template-columns: 1fr 50px 1fr; }
-            .paper-row.img-near { padding-left: 0; }
-            .paper-row.seq-near { padding-right: 0; }
             .paper-row.img-near .pcard, .paper-row.img-far  .pcard,
             .paper-row.seq-near .pcard, .paper-row.seq-far  .pcard { max-width: 130px; }
-            .year-dot { width: 40px; height: 40px; font-size: 8.5px; }
+            .year-dot { width: 46px; height: 46px; font-size: 13px; }
         }
     </style>
 </head>
@@ -316,9 +276,18 @@
 <!-- TIMELINE -->
 <div id="timeline-wrap">
     <p class="section-heading">Timeline</p>
-    <div id="filter-bar">
-        <button class="filter-btn" data-filter="amplification">Amplification</button>
-        <button class="filter-btn" data-filter="hybridisation">Hybridisation</button>
+    <div id="filter-wrap">
+        <div class="filter-group-label">Method type</div>
+        <div class="filter-group" id="filter-method">
+            <button class="filter-btn" data-filtertype="method" data-filter="amplification">Amplification</button>
+            <button class="filter-btn" data-filtertype="method" data-filter="hybridisation">Hybridisation</button>
+        </div>
+        <div class="filter-group-label">Sample type</div>
+        <div class="filter-group" id="filter-organism">
+            <button class="filter-btn" data-filtertype="organism" data-filter="animals">Animals</button>
+            <button class="filter-btn" data-filtertype="organism" data-filter="plants">Plants</button>
+            <button class="filter-btn" data-filtertype="organism" data-filter="microbes">Microbes</button>
+        </div>
     </div>
     <div id="timeline-grid"></div>
 </div>
@@ -340,9 +309,6 @@ var GVIZ_URL = 'https://docs.google.com/spreadsheets/d/'
 // ═══════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════
-
-// Parse year AND month from a gviz date cell.
-// gviz uses JS-style 0-indexed months: Date(2023,5,15) = June 15 2023.
 function parseDate(cell) {
     var out = { year: null, month: null };
     if (!cell || cell.v == null) return out;
@@ -350,7 +316,7 @@ function parseDate(cell) {
         var dm = cell.v.match(/Date\((\d+),(\d+)/);
         if (dm) {
             out.year  = parseInt(dm[1]);
-            out.month = parseInt(dm[2]) + 1; // convert 0-indexed → 1-indexed (1=Jan, 12=Dec)
+            out.month = parseInt(dm[2]) + 1;
             return out;
         }
     }
@@ -373,7 +339,6 @@ function esc(s) {
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// Case-insensitive column lookup — tries multiple name variants
 function findCol(cols) {
     var names = Array.prototype.slice.call(arguments, 1);
     for (var i = 0; i < names.length; i++) {
@@ -395,30 +360,29 @@ function getCell(row, idx) {
 function paperCard(p) {
     var doi        = p.doi;
     var doiDisplay = doi.replace(/^https?:\/\/(dx\.)?doi\.org\//i, '');
-    return '<div class="pcard ' + p.cardType + '">'
+    var typeLabel  = p.cardType.charAt(0).toUpperCase() + p.cardType.slice(1);
+    var chips = '<span class="chip chip-' + p.cardType + '">' + typeLabel + '</span>';
+    if (p.orgKey) {
+        var orgLabel = p.orgKey.charAt(0).toUpperCase() + p.orgKey.slice(1);
+        chips += '<span class="chip chip-' + p.orgKey + '">' + orgLabel + '</span>';
+    }
+    return '<div class="pcard">'
          + '<div class="paper-method">' + esc(p.method) + '</div>'
-         + (p.organism ? '<div class="paper-organism">' + esc(p.organism) + '</div>' : '')
          + (doi ? '<a class="paper-doi" href="' + doi.replace(/"/g,'%22') + '"'
                 + ' target="_blank" rel="noopener">' + esc(doiDisplay) + '</a>' : '')
+         + '<div class="chip-row">' + chips + '</div>'
          + '</div>';
 }
 
 // ═══════════════════════════════════
-//  RENDER one column's papers for a year,
-//  with month-based vertical spacing.
-//
-//  Descending timeline: Dec (month 12) at top,
-//  Jan (month 1) at bottom within each year section.
-//  Papers sorted by month descending, with proportional
-//  spacers inserted between them.
+//  RENDER one column's papers for a year
 // ═══════════════════════════════════
-var Y_SCALE   = 160; // pixel spread per year (= min-height of paper cell)
-var CARD_H    = 64;  // estimated card height + margin (px)
+var Y_SCALE = 160;
+var CARD_H  = 72;
 
 function renderPapers(papers, side) {
     if (papers.length === 0) return '';
 
-    // Sort by month descending (Dec first = top of section)
     var sorted = papers.slice().sort(function(a, b) {
         return (b.month || 6) - (a.month || 6);
     });
@@ -427,19 +391,18 @@ function renderPapers(papers, side) {
     var runningY = 0;
 
     sorted.forEach(function(p) {
-        // Target Y offset from top of year section
         var m       = p.month || 6;
         var targetY = Math.round((12 - m) / 11 * Y_SCALE);
-
-        // Insert spacer if there is a gap to fill
-        var spacer = Math.max(0, targetY - runningY);
+        var spacer  = Math.max(0, targetY - runningY);
         if (spacer > 2) {
             html += '<div style="height:' + spacer + 'px;flex-shrink:0"></div>';
             runningY += spacer;
         }
 
         var prox = p.isNear ? 'near' : 'far';
-        html += '<div class="paper-row ' + side + '-' + prox + ' ' + p.cardType + '">'
+        html += '<div class="paper-row ' + side + '-' + prox + ' ' + p.cardType + '"'
+              + ' data-cardtype="' + p.cardType + '"'
+              + ' data-organism="' + (p.orgKey || '') + '">'
               + paperCard(p)
               + '<div class="pline"></div>'
               + '</div>';
@@ -474,15 +437,12 @@ function buildTimeline(rows) {
     [imgByYear, seqByYear].forEach(function(m) {
         Object.keys(m).forEach(function(y) { if (y !== 'unknown') yearSet[y] = true; });
     });
-    // Descending: newest first
     var years = Object.keys(yearSet).map(Number).sort(function(a,b){ return b - a; });
 
-    // Column headers
-    var html = '<div style="align-self:start;text-align:right;padding-right:6px">'
-             +   '<div class="col-header">Imaging-based</div>'
-             + '</div>'
+    // Column headers — each centered in its half
+    var html = '<div class="col-header" style="text-align:center;">Imaging-based</div>'
              + '<div class="col-header-spacer"></div>'
-             + '<div class="col-header seq-header">Sequencing-based</div>';
+             + '<div class="col-header" style="text-align:center;">Sequencing-based</div>';
 
     years.forEach(function(year, idx) {
         var isFirst = idx === 0;
@@ -514,13 +474,9 @@ function buildTimeline(rows) {
 function buildBubbleChart(rows) {
     var counts = {};
     rows.forEach(function(r) {
-        if (!r.organism) return;
-        var raw = r.organism.toLowerCase();
-        var key = /animal/i.test(raw)  ? 'Animals'
-                : /plant/i.test(raw)   ? 'Plants'
-                : /microb/i.test(raw)  ? 'Microbes'
-                : null;
-        if (key) counts[key] = (counts[key] || 0) + 1;
+        if (!r.orgKey) return;
+        var k = r.orgKey.charAt(0).toUpperCase() + r.orgKey.slice(1);
+        counts[k] = (counts[k] || 0) + 1;
     });
 
     var items = [
@@ -575,7 +531,6 @@ fetch(GVIZ_URL)
         var data = JSON.parse(text.substring(start, end));
         var cols = data.table.cols.map(function(c) { return c.label; });
 
-        // Robust case-insensitive column lookups
         var iDate   = findCol(cols, 'date published', 'date', 'year', 'published');
         var iLink   = findCol(cols, 'link', 'doi', 'url', 'paper link');
         var iMethod = findCol(cols, 'method', 'method name', 'technique', 'name');
@@ -591,6 +546,7 @@ fetch(GVIZ_URL)
                 var mt  = cellStr(getCell(r, iMType)).toLowerCase();
                 var it  = cellStr(getCell(r, iIType)).toLowerCase();
                 var tag = cellStr(getCell(r, iTag));
+                var orgRaw = cellStr(getCell(r, iOrg)).toLowerCase();
 
                 var cardType;
                 if (mt === 'imaging') {
@@ -599,6 +555,11 @@ fetch(GVIZ_URL)
                 } else {
                     cardType = 'sequencing';
                 }
+
+                var orgKey = /animal/i.test(orgRaw) ? 'animals'
+                           : /plant/i.test(orgRaw)  ? 'plants'
+                           : /microb/i.test(orgRaw) ? 'microbes'
+                           : '';
 
                 return {
                     year:       dateInfo.year,
@@ -609,7 +570,7 @@ fetch(GVIZ_URL)
                     cardType:   cardType,
                     tag:        tag,
                     isNear:     /breakthrough|original/i.test(tag),
-                    organism:   cellStr(getCell(r, iOrg))
+                    orgKey:     orgKey
                 };
             })
             .filter(function(r) { return r.method && r.methodType; });
@@ -626,30 +587,38 @@ fetch(GVIZ_URL)
             + '<small style="opacity:0.6">' + esc(err.message) + '</small>';
     });
 
-// Filter buttons
-document.getElementById('filter-bar').addEventListener('click', function(e) {
+// ═══════════════════════════════════
+//  FILTER LOGIC
+//  Both method and organism filters work independently (AND logic).
+// ═══════════════════════════════════
+var activeFilters = { method: null, organism: null };
+
+function applyFilters() {
+    document.querySelectorAll('.paper-row').forEach(function(row) {
+        var methodOk = !activeFilters.method   || row.dataset.cardtype === activeFilters.method;
+        var orgOk    = !activeFilters.organism || row.dataset.organism  === activeFilters.organism;
+        row.classList.toggle('dimmed', !(methodOk && orgOk));
+    });
+}
+
+document.getElementById('filter-wrap').addEventListener('click', function(e) {
     var btn = e.target.closest('.filter-btn');
     if (!btn) return;
-    var filter = btn.dataset.filter;
-    var isActive = btn.classList.contains('active');
+    var filterType = btn.dataset.filtertype;
+    var filter     = btn.dataset.filter;
+    var isActive   = btn.classList.contains('active');
 
-    // Reset all buttons
-    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    // Reset buttons in this group only
+    document.querySelectorAll('.filter-btn[data-filtertype="' + filterType + '"]')
+        .forEach(function(b) { b.classList.remove('active'); });
 
     if (isActive) {
-        // Toggle off — show all
-        document.querySelectorAll('.paper-row').forEach(function(row) { row.classList.remove('dimmed'); });
+        activeFilters[filterType] = null;
     } else {
-        // Activate this filter — dim unrelated rows
         btn.classList.add('active');
-        document.querySelectorAll('.paper-row').forEach(function(row) {
-            if (row.classList.contains(filter)) {
-                row.classList.remove('dimmed');
-            } else {
-                row.classList.add('dimmed');
-            }
-        });
+        activeFilters[filterType] = filter;
     }
+    applyFilters();
 });
 
 // Navbar scroll tint
