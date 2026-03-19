@@ -11,7 +11,7 @@
         html { scroll-behavior: smooth; }
 
         body {
-            background: #fafafa;
+            background: #ffffff;
             color: #111;
             font-family: 'Montserrat', Arial, sans-serif;
             font-size: 14px;
@@ -77,7 +77,7 @@
 
         /* Section headings — bigger, mixed case */
         .section-heading {
-            font-size: 17px;
+            font-size: 24px;
             font-weight: 500;
             letter-spacing: 0.04em;
             color: #222;
@@ -95,7 +95,7 @@
 
         /* ── Column header labels — bigger, mixed case, no border ── */
         .col-header {
-            font-size: 14px;
+            font-size: 20px;
             font-weight: 500;
             letter-spacing: 0.02em;
             color: #333;
@@ -105,28 +105,43 @@
         .col-header.img-header { text-align: right; padding-right: 6px; }
         .col-header.seq-header { text-align: left;  padding-left: 6px; }
 
-        /* Colour legend under Imaging-based — horizontal */
-        .col-legend-horiz {
+        /* ── Filter buttons ── */
+        #filter-bar {
             display: flex;
-            flex-direction: row;
-            gap: 14px;
-            justify-content: flex-end;
-            padding: 5px 6px 8px 0;
+            justify-content: center;
+            gap: 12px;
+            padding: 0 0 28px;
         }
-        .col-legend-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 10px;
-            color: #666;
-            letter-spacing: 0.04em;
+        .filter-btn {
+            padding: 7px 22px;
+            border-radius: 99px;
+            border: 1.5px solid;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: opacity 0.2s, background 0.2s, color 0.2s;
+            background: transparent;
         }
-        .col-legend-swatch {
-            width: 11px; height: 11px;
-            border-radius: 2px; flex-shrink: 0;
+        .filter-btn[data-filter="amplification"] {
+            border-color: #d4b800;
+            color: #a08000;
         }
-        .col-legend-swatch.amp  { background: #fffce8; border: 1.5px solid #d4b800; }
-        .col-legend-swatch.hybr { background: #f8f3ff; border: 1.5px solid #9b7fd4; }
+        .filter-btn[data-filter="amplification"]:hover,
+        .filter-btn[data-filter="amplification"].active {
+            background: #d4b800;
+            color: #fff;
+        }
+        .filter-btn[data-filter="hybridisation"] {
+            border-color: #9b7fd4;
+            color: #7a5bc4;
+        }
+        .filter-btn[data-filter="hybridisation"]:hover,
+        .filter-btn[data-filter="hybridisation"].active {
+            background: #9b7fd4;
+            color: #fff;
+        }
 
         /* Spacer for year-axis header position */
         .col-header-spacer { align-self: start; padding: 0 0 6px; }
@@ -214,13 +229,13 @@
         .paper-row.seq-far  .pline { flex-grow: 1; height: 1px; order: 1; }
         .paper-row.seq-far  .pcard { flex-shrink: 0; max-width: 200px; order: 2; }
 
-        /* ── Branch line colours ── */
-        .paper-row.img-near.amplification .pline { background: rgba(212,184,0,0.55); }
-        .paper-row.img-far.amplification  .pline { background: linear-gradient(to right, transparent, rgba(212,184,0,0.4)); }
-        .paper-row.img-near.hybridisation .pline { background: rgba(155,127,212,0.55); }
-        .paper-row.img-far.hybridisation  .pline { background: linear-gradient(to right, transparent, rgba(155,127,212,0.4)); }
-        .paper-row.seq-near.sequencing    .pline { background: rgba(150,150,150,0.4); }
-        .paper-row.seq-far.sequencing     .pline { background: linear-gradient(to left, transparent, rgba(150,150,150,0.35)); }
+        /* ── Branch line colours — solid ── */
+        .paper-row.img-near.amplification .pline,
+        .paper-row.img-far.amplification  .pline { background: rgba(212,184,0,0.55); }
+        .paper-row.img-near.hybridisation .pline,
+        .paper-row.img-far.hybridisation  .pline { background: rgba(155,127,212,0.55); }
+        .paper-row.seq-near.sequencing    .pline,
+        .paper-row.seq-far.sequencing     .pline { background: rgba(150,150,150,0.4); }
 
         /* ── Paper cards — uniform border ── */
         .pcard {
@@ -231,20 +246,22 @@
             min-width: 0;
         }
         .pcard:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.10); }
-        .pcard.amplification { background: #fffce8; border: 1.5px solid #d4b800; }
-        .pcard.hybridisation { background: #f8f3ff; border: 1.5px solid #9b7fd4; }
+        .pcard.amplification { background: #ffffff; border: 1.5px solid #c8c8c8; }
+        .pcard.hybridisation { background: #ffffff; border: 1.5px solid #c8c8c8; }
         .pcard.sequencing    { background: #ffffff; border: 1.5px solid #c8c8c8; }
 
         .paper-method   { font-weight: 600; font-size: 11.5px; color: #111; margin-bottom: 2px; line-height: 1.3; }
-        .paper-organism { font-size: 10px; color: #888; margin-bottom: 3px; font-style: italic; }
+        .paper-organism { font-size: 11px; color: #888; margin-bottom: 3px; font-style: italic; }
         .paper-doi {
-            display: block; font-size: 10px;
+            display: block; font-size: 11px;
             text-decoration: none; word-break: break-all;
             opacity: 0.75; transition: opacity 0.2s;
         }
-        .pcard.amplification .paper-doi { color: #a08000; }
-        .pcard.hybridisation .paper-doi { color: #7a5bc4; }
+        .pcard.amplification .paper-doi { color: #666; }
+        .pcard.hybridisation .paper-doi { color: #666; }
         .pcard.sequencing    .paper-doi { color: #666; }
+        /* dim class for filter */
+        .paper-row.dimmed { opacity: 0.12; pointer-events: none; }
         .paper-doi:hover { opacity: 1; text-decoration: underline; }
 
         /* ══════════════════════════════════════════
@@ -299,6 +316,10 @@
 <!-- TIMELINE -->
 <div id="timeline-wrap">
     <p class="section-heading">Timeline</p>
+    <div id="filter-bar">
+        <button class="filter-btn" data-filter="amplification">Amplification</button>
+        <button class="filter-btn" data-filter="hybridisation">Hybridisation</button>
+    </div>
     <div id="timeline-grid"></div>
 </div>
 
@@ -456,13 +477,9 @@ function buildTimeline(rows) {
     // Descending: newest first
     var years = Object.keys(yearSet).map(Number).sort(function(a,b){ return b - a; });
 
-    // Column headers: legend sits under "Imaging-based", horizontal
+    // Column headers
     var html = '<div style="align-self:start;text-align:right;padding-right:6px">'
              +   '<div class="col-header">Imaging-based</div>'
-             +   '<div class="col-legend-horiz">'
-             +     '<div class="col-legend-item"><span class="col-legend-swatch amp"></span>Amplification</div>'
-             +     '<div class="col-legend-item"><span class="col-legend-swatch hybr"></span>Hybridisation</div>'
-             +   '</div>'
              + '</div>'
              + '<div class="col-header-spacer"></div>'
              + '<div class="col-header seq-header">Sequencing-based</div>';
@@ -608,6 +625,32 @@ fetch(GVIZ_URL)
             + '<small>Make sure the Google Sheet is shared as "Anyone with the link can view".</small><br>'
             + '<small style="opacity:0.6">' + esc(err.message) + '</small>';
     });
+
+// Filter buttons
+document.getElementById('filter-bar').addEventListener('click', function(e) {
+    var btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    var filter = btn.dataset.filter;
+    var isActive = btn.classList.contains('active');
+
+    // Reset all buttons
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+
+    if (isActive) {
+        // Toggle off — show all
+        document.querySelectorAll('.paper-row').forEach(function(row) { row.classList.remove('dimmed'); });
+    } else {
+        // Activate this filter — dim unrelated rows
+        btn.classList.add('active');
+        document.querySelectorAll('.paper-row').forEach(function(row) {
+            if (row.classList.contains(filter)) {
+                row.classList.remove('dimmed');
+            } else {
+                row.classList.add('dimmed');
+            }
+        });
+    }
+});
 
 // Navbar scroll tint
 window.addEventListener('scroll', function() {
