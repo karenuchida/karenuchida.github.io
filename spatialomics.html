@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatial Omics — Karen Uchida</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: #ffffff;
+            color: #111;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* ── NAV ── */
+        #navbar {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 48px;
+            background: transparent;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        #navbar.scrolled {
+            background: rgba(255,255,255,0.94);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 0 #e8e8e8;
+        }
+        .nav-logo { color: #ff6600; font-size: 17px; font-weight: 600; letter-spacing: 0.1em; text-decoration: none; }
+        .nav-links { display: flex; gap: 28px; }
+        .nav-links a {
+            color: #111; text-decoration: none; font-size: 12px;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            opacity: 0.45; transition: opacity 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { opacity: 1; color: #ff6600; }
+
+        /* ── PAGE HEADER ── */
+        #page-header { text-align: center; padding: 60px 24px 36px; }
+        #page-header h1 {
+            font-size: clamp(1.4rem, 3.5vw, 2rem);
+            font-weight: 300; color: #111;
+            letter-spacing: 0.2em; text-transform: uppercase;
+        }
+
+        /* ── STATUS ── */
+        #status { text-align: center; padding: 60px 24px; color: #aaa; font-size: 12px; letter-spacing: 0.08em; }
+        #status.error { color: #c0392b; }
+        .spinner {
+            display: inline-block; width: 18px; height: 18px;
+            border: 2px solid #eee; border-top-color: #ff6600;
+            border-radius: 50%; animation: spin 0.7s linear infinite;
+            vertical-align: middle; margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ══════════════════════════════════════════
+           TIMELINE SECTION
+           ══════════════════════════════════════════ */
+        #timeline-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+            display: none;
+        }
+
+        .section-heading {
+            font-size: 24px; font-weight: 500;
+            letter-spacing: 0.04em; color: #222;
+            text-align: center; padding: 0 0 20px;
+        }
+
+        /* ── Filter bar ── */
+        #filter-wrap { padding: 0 0 32px; }
+        .filter-group-label {
+            font-size: 10px; letter-spacing: 0.12em;
+            text-transform: uppercase; color: #bbb;
+            text-align: center; padding: 0 0 7px;
+        }
+        .filter-group {
+            display: flex; justify-content: center;
+            gap: 10px; flex-wrap: wrap; padding-bottom: 14px;
+        }
+        .filter-btn {
+            padding: 6px 18px; border-radius: 99px; border: 1.5px solid;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+            cursor: pointer; background: transparent;
+            transition: background 0.2s, color 0.2s;
+        }
+        .filter-btn[data-filter="amplification"] { border-color: #d4b800; color: #a08000; }
+        .filter-btn[data-filter="amplification"]:hover,
+        .filter-btn[data-filter="amplification"].active { background: #d4b800; color: #fff; }
+        .filter-btn[data-filter="hybridisation"]  { border-color: #9b7fd4; color: #7a5bc4; }
+        .filter-btn[data-filter="hybridisation"]:hover,
+        .filter-btn[data-filter="hybridisation"].active  { background: #9b7fd4; color: #fff; }
+        .filter-btn[data-filter="animals"]  { border-color: #e07840; color: #c05820; }
+        .filter-btn[data-filter="animals"]:hover,
+        .filter-btn[data-filter="animals"].active  { background: #e07840; color: #fff; }
+        .filter-btn[data-filter="plants"]   { border-color: #52a852; color: #357a35; }
+        .filter-btn[data-filter="plants"]:hover,
+        .filter-btn[data-filter="plants"].active   { background: #52a852; color: #fff; }
+        .filter-btn[data-filter="microbes"] { border-color: #8264c8; color: #6248a8; }
+        .filter-btn[data-filter="microbes"]:hover,
+        .filter-btn[data-filter="microbes"].active { background: #8264c8; color: #fff; }
+
+        /* 3-column grid: [imaging] [year-axis] [sequencing] */
+        #timeline-grid {
+            display: grid;
+            grid-template-columns: 1fr 72px 1fr;
+            gap: 0;
+            align-items: stretch;
+        }
+
+        /* ── Column header labels — centred in each half ── */
+        .col-header {
+            font-size: 20px; font-weight: 500;
+            letter-spacing: 0.02em; color: #333;
+            text-align: center; padding: 0 0 12px;
+            align-self: start;
+        }
+        .col-header-spacer { align-self: start; padding: 0 0 12px; }
+
+        /* ── Year axis cell ── */
+        .year-cell {
+            position: relative;
+            display: flex; flex-direction: column; align-items: center;
+            padding-top: 12px; min-height: 160px;
+        }
+        /* Central vertical line */
+        .year-cell::before {
+            content: '';
+            position: absolute; left: 50%; transform: translateX(-50%);
+            top: 0; bottom: 0; width: 2px;
+            background: rgba(74,85,104,0.22); z-index: 0;
+        }
+        .year-cell.first::before { top: 42px; }
+        .year-cell.last::before  { bottom: auto; height: 42px; }
+
+        /* Year circle */
+        .year-dot {
+            position: relative; z-index: 1;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: #4a5568; color: #fff;
+            font-size: 16px; font-weight: 600;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(74,85,104,0.25);
+            flex-shrink: 0;
+        }
+
+        /* ── Paper column cells — overflow visible so plines cross boundary ── */
+        .papers-cell {
+            align-self: start; padding: 8px 0 10px;
+            display: flex; flex-direction: column;
+            min-height: 160px; overflow: visible;
+        }
+        .img-col { padding-right: 0; }
+        .seq-col { padding-left:  0; }
+
+        /* ── Paper rows ── */
+        .paper-row {
+            display: flex; align-items: center;
+            min-width: 0; margin-bottom: 5px;
+            flex-shrink: 0; overflow: visible;
+        }
+
+        /*
+         * IMAGING (left column)
+         * NEAR (Breakthrough): flush right — pline overflows into year-cell to touch axis.
+         * FAR (regular):  centred — pline is a stub arm toward axis.
+         */
+        .paper-row.img-near { justify-content: flex-end; }
+        .paper-row.img-near .pcard { flex-shrink: 0; max-width: 240px; }
+        .paper-row.img-near .pline { width: 50px; flex-shrink: 0; height: 1px; }
+
+        .paper-row.img-far  { justify-content: center; }
+        .paper-row.img-far  .pcard { flex-shrink: 0; max-width: 220px; }
+        .paper-row.img-far  .pline { width: 40px; flex-shrink: 0; height: 1px; }
+
+        /*
+         * SEQUENCING (right column)
+         * NEAR: flush left — pline overflows leftward to touch axis.
+         * FAR:  centred — pline is a stub arm.
+         */
+        .paper-row.seq-near { justify-content: flex-start; }
+        .paper-row.seq-near .pline { width: 50px; flex-shrink: 0; height: 1px; order: 1; }
+        .paper-row.seq-near .pcard { flex-shrink: 0; max-width: 240px; order: 2; }
+
+        .paper-row.seq-far  { justify-content: center; }
+        .paper-row.seq-far  .pline { width: 40px; flex-shrink: 0; height: 1px; order: 1; }
+        .paper-row.seq-far  .pcard { flex-shrink: 0; max-width: 220px; order: 2; }
+
+        /* All branch lines — uniform neutral gray */
+        .pline { background: rgba(150,150,150,0.5); }
+
+        /* ── Paper cards ── */
+        .pcard {
+            border-radius: 5px; padding: 7px 10px 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            transition: box-shadow 0.18s, opacity 0.2s;
+            min-width: 0; background: #ffffff; border: 1.5px solid #d8d8d8;
+        }
+        .pcard:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.10); }
+
+        .paper-method { font-weight: 600; font-size: 11.5px; color: #111; margin-bottom: 3px; line-height: 1.3; }
+        .paper-doi {
+            display: block; font-size: 11px; color: #888;
+            text-decoration: none; word-break: break-all;
+            opacity: 0.75; transition: opacity 0.2s; margin-bottom: 5px;
+        }
+        .paper-doi:hover { opacity: 1; text-decoration: underline; }
+
+        /* ── Chips ── */
+        .chip-row { display: flex; flex-wrap: wrap; gap: 4px; }
+        .chip {
+            display: inline-block; padding: 2px 8px; border-radius: 99px;
+            font-size: 9.5px; font-weight: 500; letter-spacing: 0.04em;
+            border: 1px solid; white-space: nowrap;
+        }
+        .chip-amplification { background: #fffce8; border-color: #d4b800; color: #a08000; }
+        .chip-hybridisation  { background: #f8f3ff; border-color: #9b7fd4; color: #7a5bc4; }
+        .chip-sequencing     { background: #f5f5f5; border-color: #c8c8c8; color: #888; }
+        .chip-animals  { background: #fff5f0; border-color: #e07840; color: #c05820; }
+        .chip-plants   { background: #f0faf0; border-color: #52a852; color: #357a35; }
+        .chip-microbes { background: #f3f0ff; border-color: #8264c8; color: #6248a8; }
+
+        /* Dim class for filtering */
+        .paper-row.dimmed { opacity: 0.1; pointer-events: none; }
+
+        /* ══════════════════════════════════════════
+           BUBBLE CHART SECTION
+           ══════════════════════════════════════════ */
+        #bubble-section {
+            max-width: 800px; margin: 0 auto;
+            padding: 20px 24px 100px; text-align: center; display: none;
+        }
+        #bubble-chart svg { width: 100%; max-width: 700px; display: block; margin: 0 auto; overflow: visible; }
+
+        /* ── Responsive ── */
+        @media (max-width: 720px) {
+            #navbar { padding: 14px 18px; }
+            #timeline-wrap { padding: 0 12px 60px; }
+            #timeline-grid { grid-template-columns: 1fr 50px 1fr; }
+            .paper-row.img-near .pcard, .paper-row.img-far  .pcard,
+            .paper-row.seq-near .pcard, .paper-row.seq-far  .pcard { max-width: 130px; }
+            .year-dot { width: 46px; height: 46px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <a href="index.html" class="nav-logo">KU</a>
+    <div class="nav-links">
+        <a href="intro.html">Intro</a>
+        <a href="index.html#cv">CV</a>
+        <a href="spatialomics.html" class="active">Spatial Omics</a>
+    </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div id="page-header">
+    <h1>Spatial Omics</h1>
+</div>
+
+<!-- LOADING -->
+<div id="status"><span class="spinner"></span> Loading from spreadsheet…</div>
+
+<!-- TIMELINE -->
+<div id="timeline-wrap">
+    <p class="section-heading">Timeline</p>
+    <div id="filter-wrap">
+        <div class="filter-group-label">Method type</div>
+        <div class="filter-group" id="filter-method">
+            <button class="filter-btn" data-filtertype="method" data-filter="amplification">Amplification</button>
+            <button class="filter-btn" data-filtertype="method" data-filter="hybridisation">Hybridisation</button>
+        </div>
+        <div class="filter-group-label">Sample type</div>
+        <div class="filter-group" id="filter-organism">
+            <button class="filter-btn" data-filtertype="organism" data-filter="animals">Animals</button>
+            <button class="filter-btn" data-filtertype="organism" data-filter="plants">Plants</button>
+            <button class="filter-btn" data-filtertype="organism" data-filter="microbes">Microbes</button>
+        </div>
+    </div>
+    <div id="timeline-grid"></div>
+</div>
+
+<!-- BUBBLE CHART -->
+<div id="bubble-section">
+    <p class="section-heading">Sample type</p>
+    <div id="bubble-chart"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════
+var SHEET_ID = '1GDGEbKghH3nxXYz98v8coWwhkBjoq7izMQlkgM1wEV8';
+var GVIZ_URL = 'https://docs.google.com/spreadsheets/d/'
+             + SHEET_ID + '/gviz/tq?tqx=out:json';
+
+// ═══════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════
+function parseDate(cell) {
+    var out = { year: null, month: null };
+    if (!cell || cell.v == null) return out;
+    if (typeof cell.v === 'string') {
+        var dm = cell.v.match(/Date\((\d+),(\d+)/);
+        if (dm) {
+            out.year  = parseInt(dm[1]);
+            out.month = parseInt(dm[2]) + 1;
+            return out;
+        }
+    }
+    if (cell.f) {
+        var m = String(cell.f).match(/\d{4}/);
+        if (m) { out.year = parseInt(m[0]); return out; }
+    }
+    var n = parseInt(cell.v);
+    if (!isNaN(n) && n > 1900 && n < 2200) { out.year = n; return out; }
+    return out;
+}
+
+function cellStr(cell) {
+    return (cell && cell.v != null) ? String(cell.v).trim() : '';
+}
+
+function esc(s) {
+    return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function findCol(cols) {
+    var names = Array.prototype.slice.call(arguments, 1);
+    for (var i = 0; i < names.length; i++) {
+        var t = names[i].toLowerCase().replace(/\s+/g,' ').trim();
+        for (var j = 0; j < cols.length; j++) {
+            if (cols[j].toLowerCase().replace(/\s+/g,' ').trim() === t) return j;
+        }
+    }
+    return -1;
+}
+
+function getCell(row, idx) {
+    return (idx >= 0 && row.c && row.c[idx]) ? row.c[idx] : null;
+}
+
+// ═══════════════════════════════════
+//  RENDER one paper card
+// ═══════════════════════════════════
+function paperCard(p) {
+    var doi        = p.doi;
+    var doiDisplay = doi.replace(/^https?:\/\/(dx\.)?doi\.org\//i, '');
+    var typeLabel  = p.cardType.charAt(0).toUpperCase() + p.cardType.slice(1);
+    var chips = '<span class="chip chip-' + p.cardType + '">' + typeLabel + '</span>';
+    if (p.orgKey) {
+        var orgLabel = p.orgKey.charAt(0).toUpperCase() + p.orgKey.slice(1);
+        chips += '<span class="chip chip-' + p.orgKey + '">' + orgLabel + '</span>';
+    }
+    return '<div class="pcard">'
+         + '<div class="paper-method">' + esc(p.method) + '</div>'
+         + (doi ? '<a class="paper-doi" href="' + doi.replace(/"/g,'%22') + '"'
+                + ' target="_blank" rel="noopener">' + esc(doiDisplay) + '</a>' : '')
+         + '<div class="chip-row">' + chips + '</div>'
+         + '</div>';
+}
+
+// ═══════════════════════════════════
+//  RENDER one column's papers for a year
+// ═══════════════════════════════════
+var Y_SCALE = 160;
+var CARD_H  = 72;
+
+function renderPapers(papers, side) {
+    if (papers.length === 0) return '';
+
+    var sorted = papers.slice().sort(function(a, b) {
+        return (b.month || 6) - (a.month || 6);
+    });
+
+    var html = '';
+    var runningY = 0;
+
+    sorted.forEach(function(p) {
+        var m       = p.month || 6;
+        var targetY = Math.round((12 - m) / 11 * Y_SCALE);
+        var spacer  = Math.max(0, targetY - runningY);
+        if (spacer > 2) {
+            html += '<div style="height:' + spacer + 'px;flex-shrink:0"></div>';
+            runningY += spacer;
+        }
+
+        var prox = p.isNear ? 'near' : 'far';
+        html += '<div class="paper-row ' + side + '-' + prox + ' ' + p.cardType + '"'
+              + ' data-cardtype="' + p.cardType + '"'
+              + ' data-organism="' + (p.orgKey || '') + '">'
+              + paperCard(p)
+              + '<div class="pline"></div>'
+              + '</div>';
+
+        runningY += CARD_H;
+    });
+
+    return html;
+}
+
+// ═══════════════════════════════════
+//  BUILD TIMELINE
+// ═══════════════════════════════════
+function buildTimeline(rows) {
+    var imgRows = rows.filter(function(r) { return r.methodType === 'imaging'; });
+    var seqRows = rows.filter(function(r) { return r.methodType === 'sequencing'; });
+
+    function groupByYear(list) {
+        var map = {};
+        list.forEach(function(r) {
+            var y = r.year || 'unknown';
+            if (!map[y]) map[y] = [];
+            map[y].push(r);
+        });
+        return map;
+    }
+
+    var imgByYear = groupByYear(imgRows);
+    var seqByYear = groupByYear(seqRows);
+
+    var yearSet = {};
+    [imgByYear, seqByYear].forEach(function(m) {
+        Object.keys(m).forEach(function(y) { if (y !== 'unknown') yearSet[y] = true; });
+    });
+    var years = Object.keys(yearSet).map(Number).sort(function(a,b){ return b - a; });
+
+    // Column headers — each centered in its half
+    var html = '<div class="col-header" style="text-align:center;">Imaging-based</div>'
+             + '<div class="col-header-spacer"></div>'
+             + '<div class="col-header" style="text-align:center;">Sequencing-based</div>';
+
+    years.forEach(function(year, idx) {
+        var isFirst = idx === 0;
+        var isLast  = idx === years.length - 1;
+        var yKey    = String(year);
+
+        html += '<div class="papers-cell img-col">'
+              + renderPapers(imgByYear[yKey] || [], 'img')
+              + '</div>';
+
+        html += '<div class="year-cell'
+              + (isFirst ? ' first' : '')
+              + (isLast  ? ' last'  : '') + '">'
+              + '<div class="year-dot">' + year + '</div>'
+              + '</div>';
+
+        html += '<div class="papers-cell seq-col">'
+              + renderPapers(seqByYear[yKey] || [], 'seq')
+              + '</div>';
+    });
+
+    document.getElementById('timeline-grid').innerHTML = html;
+    document.getElementById('timeline-wrap').style.display = 'block';
+}
+
+// ═══════════════════════════════════
+//  BUILD BUBBLE CHART
+// ═══════════════════════════════════
+function buildBubbleChart(rows) {
+    var counts = {};
+    rows.forEach(function(r) {
+        if (!r.orgKey) return;
+        var k = r.orgKey.charAt(0).toUpperCase() + r.orgKey.slice(1);
+        counts[k] = (counts[k] || 0) + 1;
+    });
+
+    var items = [
+        { label: 'Animals',  count: counts['Animals']  || 0, fill: '#fff0e6', stroke: '#e07840' },
+        { label: 'Plants',   count: counts['Plants']   || 0, fill: '#edf7ed', stroke: '#52a852' },
+        { label: 'Microbes', count: counts['Microbes'] || 0, fill: '#ede7f6', stroke: '#8264c8' }
+    ];
+
+    var maxCount = Math.max.apply(null, items.map(function(d) { return d.count; })) || 1;
+    var maxR = 82, minR = 18;
+
+    items.forEach(function(d) {
+        d.r = d.count > 0 ? Math.max(minR, Math.round(maxR * Math.sqrt(d.count / maxCount))) : minR;
+    });
+
+    var W = 700, centerY = 100;
+    var spacing = W / (items.length + 1);
+    var H = centerY + maxR + 50;
+
+    var svg = ['<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat,Arial,sans-serif">'];
+
+    items.forEach(function(d, i) {
+        var cx = Math.round(spacing * (i + 1));
+        svg.push('<circle cx="' + cx + '" cy="' + centerY + '" r="' + d.r + '"'
+            + ' fill="' + d.fill + '" stroke="' + d.stroke + '" stroke-width="1.5"/>');
+        if (d.count > 0) {
+            svg.push('<text x="' + cx + '" y="' + (centerY + 5) + '"'
+                + ' text-anchor="middle" font-size="13" font-weight="600" fill="' + d.stroke + '">'
+                + d.count + '</text>');
+        }
+        svg.push('<text x="' + cx + '" y="' + (centerY + d.r + 20) + '"'
+            + ' text-anchor="middle" font-size="11" font-weight="500" letter-spacing="0.5" fill="#555">'
+            + d.label + '</text>');
+    });
+
+    svg.push('</svg>');
+
+    document.getElementById('bubble-chart').innerHTML = svg.join('');
+    document.getElementById('bubble-section').style.display = 'block';
+}
+
+// ═══════════════════════════════════
+//  FETCH
+// ═══════════════════════════════════
+fetch(GVIZ_URL)
+    .then(function(r) { return r.text(); })
+    .then(function(text) {
+        var start = text.indexOf('(') + 1;
+        var end   = text.lastIndexOf(')');
+        if (start <= 0 || end <= start) throw new Error('Could not parse response');
+
+        var data = JSON.parse(text.substring(start, end));
+        var cols = data.table.cols.map(function(c) { return c.label; });
+
+        var iDate   = findCol(cols, 'date published', 'date', 'year', 'published');
+        var iLink   = findCol(cols, 'link', 'doi', 'url', 'paper link');
+        var iMethod = findCol(cols, 'method', 'method name', 'technique', 'name');
+        var iMType  = findCol(cols, 'method type', 'type', 'category');
+        var iIType  = findCol(cols, 'imaging type', 'imaging subtype', 'subtype', 'imaging');
+        var iTag    = findCol(cols, 'tag', 'tags', 'label', 'status', 'highlight');
+        var iOrg    = findCol(cols, 'organism type', 'organism', 'species', 'sample type', 'sample');
+
+        var rows = (data.table.rows || [])
+            .filter(function(r) { return r && r.c; })
+            .map(function(r) {
+                var dateInfo = parseDate(getCell(r, iDate));
+                var mt  = cellStr(getCell(r, iMType)).toLowerCase();
+                var it  = cellStr(getCell(r, iIType)).toLowerCase();
+                var tag = cellStr(getCell(r, iTag));
+                var orgRaw = cellStr(getCell(r, iOrg)).toLowerCase();
+
+                var cardType;
+                if (mt === 'imaging') {
+                    cardType = (it.indexOf('hybridis') !== -1 || it.indexOf('hybridiz') !== -1)
+                             ? 'hybridisation' : 'amplification';
+                } else {
+                    cardType = 'sequencing';
+                }
+
+                var orgKey = /animal/i.test(orgRaw) ? 'animals'
+                           : /plant/i.test(orgRaw)  ? 'plants'
+                           : /microb/i.test(orgRaw) ? 'microbes'
+                           : '';
+
+                return {
+                    year:       dateInfo.year,
+                    month:      dateInfo.month,
+                    doi:        cellStr(getCell(r, iLink)),
+                    method:     cellStr(getCell(r, iMethod)),
+                    methodType: mt,
+                    cardType:   cardType,
+                    tag:        tag,
+                    isNear:     /breakthrough|original/i.test(tag),
+                    orgKey:     orgKey
+                };
+            })
+            .filter(function(r) { return r.method && r.methodType; });
+
+        document.getElementById('status').style.display = 'none';
+        buildTimeline(rows);
+        buildBubbleChart(rows);
+    })
+    .catch(function(err) {
+        var s = document.getElementById('status');
+        s.className = 'error';
+        s.innerHTML = '&#9888; Could not load data.<br>'
+            + '<small>Make sure the Google Sheet is shared as "Anyone with the link can view".</small><br>'
+            + '<small style="opacity:0.6">' + esc(err.message) + '</small>';
+    });
+
+// ═══════════════════════════════════
+//  FILTER LOGIC
+//  Both method and organism filters work independently (AND logic).
+// ═══════════════════════════════════
+var activeFilters = { method: null, organism: null };
+
+function applyFilters() {
+    document.querySelectorAll('.paper-row').forEach(function(row) {
+        var methodOk = !activeFilters.method   || row.dataset.cardtype === activeFilters.method;
+        var orgOk    = !activeFilters.organism || row.dataset.organism  === activeFilters.organism;
+        row.classList.toggle('dimmed', !(methodOk && orgOk));
+    });
+}
+
+document.getElementById('filter-wrap').addEventListener('click', function(e) {
+    var btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    var filterType = btn.dataset.filtertype;
+    var filter     = btn.dataset.filter;
+    var isActive   = btn.classList.contains('active');
+
+    // Reset buttons in this group only
+    document.querySelectorAll('.filter-btn[data-filtertype="' + filterType + '"]')
+        .forEach(function(b) { b.classList.remove('active'); });
+
+    if (isActive) {
+        activeFilters[filterType] = null;
+    } else {
+        btn.classList.add('active');
+        activeFilters[filterType] = filter;
+    }
+    applyFilters();
+});
+
+// Navbar scroll tint
+window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+</script>
+
+</body>
+</html>
